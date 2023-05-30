@@ -9,9 +9,12 @@ import SwiftUI
 
 @main
 struct PocketCaddieLinkedApp: App {
+    @StateObject var vm = CoreDataViewModel()
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            NavigationStack{
+                HomePageView()
+            }.environmentObject(vm)
         }
     }
 }

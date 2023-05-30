@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21754" systemVersion="22E261" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="HoleModel" representedClassName="HoleModel" syncable="YES" codeGenerationType="class">
+        <attribute name="fairwayHit" optional="YES" attributeType="String"/>
+        <attribute name="greenHit" optional="YES" attributeType="String"/>
+        <attribute name="holeNo" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="par" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="score" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="upDown" optional="YES" attributeType="String"/>
+        <relationship name="putts" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="PuttModel" inverseName="hole" inverseEntity="PuttModel"/>
+        <relationship name="scorecard" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ScorecardModel" inverseName="holes" inverseEntity="ScorecardModel"/>
+    </entity>
+    <entity name="PuttModel" representedClassName="PuttModel" syncable="YES" codeGenerationType="class">
+        <attribute name="breaking" optional="YES" attributeType="String"/>
+        <attribute name="make" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="miss" optional="YES" attributeType="String"/>
+        <attribute name="num" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="hole" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="HoleModel" inverseName="putts" inverseEntity="HoleModel"/>
+    </entity>
+    <entity name="ScorecardModel" representedClassName="ScorecardModel" syncable="YES" codeGenerationType="class">
+        <attribute name="currHole" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="descrip" optional="YES" attributeType="String"/>
+        <attribute name="detail" optional="YES" attributeType="String"/>
+        <attribute name="totalScore" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="holes" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="HoleModel" inverseName="scorecard" inverseEntity="HoleModel"/>
+    </entity>
+</model>
