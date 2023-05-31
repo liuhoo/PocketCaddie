@@ -49,7 +49,8 @@ class CoreDataViewModel: ObservableObject {
     
     func getScorecards(){
         let request = NSFetchRequest<ScorecardModel>(entityName: "ScorecardModel")
-        
+        let sort = NSSortDescriptor(keyPath: \ScorecardModel.date, ascending: false)
+        request.sortDescriptors = [sort]
         do{
             scorecards = try manager.context.fetch(request)
             print("GOT SCORECARD")
@@ -59,9 +60,26 @@ class CoreDataViewModel: ObservableObject {
         }
     }
     
+    func getSpecHoles(scorecard: ScorecardModel){
+        let request = NSFetchRequest<HoleModel>(entityName: "HoleModel")
+        let sort = NSSortDescriptor(keyPath: \HoleModel.holeNo, ascending: true)
+        let filter = NSPredicate(format: "scorecard == %@", scorecard )
+        request.sortDescriptors = [sort]
+        request.predicate = filter
+        do{
+            holes = try manager.context.fetch(request)
+
+        } catch let error {
+            print("ERROR FETCHING. \(error.localizedDescription)")
+        }
+    }
+    
+    
+    
     func getHoles(){
         let request = NSFetchRequest<HoleModel>(entityName: "HoleModel")
-        
+        let sort = NSSortDescriptor(keyPath: \HoleModel.holeNo, ascending: true)
+        request.sortDescriptors = [sort]
         do{
             holes = try manager.context.fetch(request)
             
@@ -71,33 +89,42 @@ class CoreDataViewModel: ObservableObject {
     }
     func getPutts(){
         let request = NSFetchRequest<PuttModel>(entityName: "PuttModel")
-        
+        let sort = NSSortDescriptor(keyPath: \PuttModel.num, ascending: true)
+        request.sortDescriptors = [sort]
         do{
             putts = try manager.context.fetch(request)
-            
         } catch let error {
             print("ERROR FETCHING. \(error.localizedDescription)")
         }
     }
     
-    func addScorecard(){
+    func addScorecard(name: String, numHoles: Int16){
         let newScorecard = ScorecardModel(context: manager.context)
         newScorecard.currHole = 0
         newScorecard.detail = ""
-        newScorecard.descrip = "NEW SCORECARD"
+        newScorecard.descrip = name
         newScorecard.totalScore = 10
+        newScorecard.date = Date.now
+        newScorecard.id = UUID()
+        
         save()
-
+        
+        for i in 0..<numHoles {
+            addHole(index: i, scorecard: newScorecard)
+        }
+        
+        
+            
 
     }
     
-    func addHole(){
+    func addHole(index: Int16, scorecard: ScorecardModel){
         
         let newHole = HoleModel(context: manager.context)
         
-        newHole.upDown = "Hole ONE"
+        newHole.holeNo = index
         
-        newHole.scorecard = scorecards[0]
+        newHole.scorecard = scorecard
         
         save()
     }

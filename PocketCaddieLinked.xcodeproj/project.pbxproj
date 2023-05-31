@@ -13,6 +13,7 @@
 		5F6046282A267FAA0065BB51 /* ScorecardContainer.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 5F6046262A267FAA0065BB51 /* ScorecardContainer.xcdatamodeld */; };
 		5F60462A2A2684EE0065BB51 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6046292A2684EE0065BB51 /* CoreDataManager.swift */; };
 		5F60462D2A2685D00065BB51 /* HomePageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F60462C2A2685D00065BB51 /* HomePageView.swift */; };
+		5F60462F2A2711FA0065BB51 /* HoleDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F60462E2A2711FA0065BB51 /* HoleDataView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,6 +24,7 @@
 		5F6046272A267FAA0065BB51 /* ScorecardContainer.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ScorecardContainer.xcdatamodel; sourceTree = "<group>"; };
 		5F6046292A2684EE0065BB51 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		5F60462C2A2685D00065BB51 /* HomePageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePageView.swift; sourceTree = "<group>"; };
+		5F60462E2A2711FA0065BB51 /* HoleDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HoleDataView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,6 +87,7 @@
 			isa = PBXGroup;
 			children = (
 				5F60462C2A2685D00065BB51 /* HomePageView.swift */,
+				5F60462E2A2711FA0065BB51 /* HoleDataView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -161,6 +164,7 @@
 			files = (
 				5F6046182A267D190065BB51 /* PocketCaddieLinkedApp.swift in Sources */,
 				5F60462A2A2684EE0065BB51 /* CoreDataManager.swift in Sources */,
+				5F60462F2A2711FA0065BB51 /* HoleDataView.swift in Sources */,
 				5F60462D2A2685D00065BB51 /* HomePageView.swift in Sources */,
 				5F6046282A267FAA0065BB51 /* ScorecardContainer.xcdatamodeld in Sources */,
 			);

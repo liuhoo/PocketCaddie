@@ -7,7 +7,7 @@
         <attribute name="par" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="score" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="upDown" optional="YES" attributeType="String"/>
-        <relationship name="putts" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="PuttModel" inverseName="hole" inverseEntity="PuttModel"/>
+        <relationship name="putts" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="PuttModel" inverseName="hole" inverseEntity="PuttModel"/>
         <relationship name="scorecard" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ScorecardModel" inverseName="holes" inverseEntity="ScorecardModel"/>
     </entity>
     <entity name="PuttModel" representedClassName="PuttModel" syncable="YES" codeGenerationType="class">
@@ -19,9 +19,11 @@
     </entity>
     <entity name="ScorecardModel" representedClassName="ScorecardModel" syncable="YES" codeGenerationType="class">
         <attribute name="currHole" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="descrip" optional="YES" attributeType="String"/>
         <attribute name="detail" optional="YES" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="totalScore" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <relationship name="holes" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="HoleModel" inverseName="scorecard" inverseEntity="HoleModel"/>
+        <relationship name="holes" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="HoleModel" inverseName="scorecard" inverseEntity="HoleModel"/>
     </entity>
 </model>
