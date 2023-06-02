@@ -24,6 +24,7 @@ struct CollectDataView: View {
        
         
         VStack(alignment: .center, spacing:0){
+            Text("CURRENT HOLE: \(currRound.currHole)")
             ZStack{
 
                 LazyVGrid(columns: [GridItem(),GridItem(),GridItem()]){
@@ -32,7 +33,7 @@ struct CollectDataView: View {
                     //                        HoleSelectView(HoleNumber: i.holeNo+1)
                     //                    }
                     ForEach(vm.holes) { i in
-                        HoleSelectView(HoleNumber: Int(i.holeNo+1))
+                        HoleSelectView(HoleNumber: Int(i.holeNo), change: holeNo)
                     }
                 }.padding().cornerRadius(20).overlay(RoundedRectangle(cornerRadius: 10).inset(by: -10).strokeBorder(lineWidth: 1 ).padding(.all))
                         
@@ -194,16 +195,17 @@ struct HoleSelectView: View {
     @EnvironmentObject var vm: CoreDataViewModel
     var HoleNumber: Int
     var num: Int = 0
+    var change: Int
     var body: some View {
         ZStack{
-            if num == HoleNumber-1 {
+            if change == HoleNumber {
                 RoundedRectangle(cornerRadius: 10)
             } else{
                 RoundedRectangle(cornerRadius: 10).stroke()
             }
             Button{
-               
-            }label: {Text("\(HoleNumber)").font(.body)}
+                vm.updateScorecard(index: 0 , newInd: HoleNumber)
+            }label: {Text("\(HoleNumber+1)").font(.body)}
         }.padding(.horizontal)
     }
 }

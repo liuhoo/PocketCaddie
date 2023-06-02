@@ -72,6 +72,7 @@ class CoreDataViewModel: ObservableObject {
         } catch let error {
             print("ERROR FETCHING. \(error.localizedDescription)")
         }
+        
     }
     
     
@@ -136,6 +137,13 @@ class CoreDataViewModel: ObservableObject {
         save()
     }
     
+    func updateScorecard(index: Int, newInd: Int){
+        let existingScorecard = scorecards[index]
+        existingScorecard.currHole = Int16(newInd)
+        holes.removeAll()
+        manager.save()
+        getSpecHoles(scorecard: existingScorecard)
+    }
     
     func deleteScorecard(){
         let scorecard = scorecards[0]
@@ -143,9 +151,7 @@ class CoreDataViewModel: ObservableObject {
         save()
     }
     
-    func reload(){
-        save()
-    }
+    
     func save(){
         
         scorecards.removeAll()
