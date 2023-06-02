@@ -124,11 +124,60 @@ class CoreDataViewModel: ObservableObject {
         let newHole = HoleModel(context: manager.context)
         
         newHole.holeNo = index
-        
+        newHole.score = 0
         newHole.scorecard = scorecard
         
         save()
     }
+    
+    
+    
+    func incrementScore(scorecard: ScorecardModel, index: Int){
+        let filter = scorecard.holes?.allObjects as? [HoleModel]
+        
+        let item = filter!.first(where:{$0.holeNo == index})!
+        item.score = item.score + 1
+        holes.removeAll()
+        manager.save()
+        getSpecHoles(scorecard: scorecard)
+            
+    }
+    
+    func decrementScore(scorecard: ScorecardModel, index: Int){
+        let filter = scorecard.holes?.allObjects as? [HoleModel]
+        
+        let item = filter!.first(where:{$0.holeNo == index})!
+        item.score = item.score - 1
+        holes.removeAll()
+        manager.save()
+        getSpecHoles(scorecard: scorecard)
+            
+    }
+    
+    
+    
+    func incrementPar(scorecard: ScorecardModel, index: Int){
+        let filter = scorecard.holes?.allObjects as? [HoleModel]
+        
+        let item = filter!.first(where:{$0.holeNo == index})!
+        item.par = item.par + 1
+        holes.removeAll()
+        manager.save()
+        getSpecHoles(scorecard: scorecard)
+            
+    }
+    
+    func decrementPar(scorecard: ScorecardModel, index: Int){
+        let filter = scorecard.holes?.allObjects as? [HoleModel]
+        
+        let item = filter!.first(where:{$0.holeNo == index})!
+        item.par = item.par - 1
+        holes.removeAll()
+        manager.save()
+        getSpecHoles(scorecard: scorecard)
+            
+    }
+    
     
     func addPutt(){
         let newPutt = PuttModel(context: manager.context)
@@ -140,9 +189,12 @@ class CoreDataViewModel: ObservableObject {
     func updateScorecard(index: Int, newInd: Int){
         let existingScorecard = scorecards[index]
         existingScorecard.currHole = Int16(newInd)
-        holes.removeAll()
+//        holes.removeAll()
+//        manager.save()
+//        getSpecHoles(scorecard: existingScorecard)
+        scorecards.removeAll()
         manager.save()
-        getSpecHoles(scorecard: existingScorecard)
+        getScorecards()
     }
     
     func deleteScorecard(){

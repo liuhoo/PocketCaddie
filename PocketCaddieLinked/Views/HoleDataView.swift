@@ -7,24 +7,15 @@
 
 import SwiftUI
 
-
-
 struct CollectDataView: View {
     @State var ParStepper: Int = 0
     @State var ScoreStepper: Int = 0
     @EnvironmentObject var vm: CoreDataViewModel
-    
-
     var body: some View {
         let currRound = vm.scorecards[0]
-        
         var holeNo = Int(currRound.currHole)
-        
         var currHole = vm.holes[holeNo]
-       
-        
         VStack(alignment: .center, spacing:0){
-            Text("CURRENT HOLE: \(currRound.currHole)")
             ZStack{
 
                 LazyVGrid(columns: [GridItem(),GridItem(),GridItem()]){
@@ -39,7 +30,6 @@ struct CollectDataView: View {
                         
 
             }.frame(maxHeight: UIScreen.main.bounds.size.height/4)
-
             List{
 //                HStack(){
 //
@@ -51,20 +41,19 @@ struct CollectDataView: View {
 //                }
 
                 HStack{
-                    Stepper{Text("Par: \(currHole.holeNo)")} onIncrement: {
-                        
-                       
+                    Stepper{Text("Par: \(currHole.par)")} onIncrement: {
+                        vm.incrementPar(scorecard: currRound, index: holeNo)
                     } onDecrement: {
-                        
-                        
-                        
+                        vm.decrementPar(scorecard: currRound, index: holeNo)
+                        if currHole.par < 0 { vm.incrementPar(scorecard: currRound, index: holeNo)}
                     }
                 }
                 HStack{
-                    Stepper{Text("Score:")} onIncrement: {
-                       
+                    Stepper{Text("Score: \(currHole.score)")} onIncrement: {
+                        vm.incrementScore(scorecard: currRound, index: holeNo)
                     } onDecrement: {
-                        
+                        vm.decrementScore(scorecard: currRound, index: holeNo)
+                        if currHole.score < 0 { vm.incrementScore(scorecard: currRound, index: holeNo)}
                     }
                 }
                 FairwayButton(roundNumber: vm.scorecards.count-1, holeNo: holeNo)
