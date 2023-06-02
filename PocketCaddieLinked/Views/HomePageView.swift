@@ -11,31 +11,23 @@ struct HomePageView: View {
     @EnvironmentObject var vm: CoreDataViewModel
     
     var body: some View {
-        
-        
         VStack {
             NavigationLink(value:"intermediateView"){
                 NewRoundView()
             }
-//            NavigationLink(value:"statisticView"){
-//                StatisticView()
-//            }
-
-//
             
             ScrollView{
                 VStack(spacing: 20){
+                    
                     Button(action: {
-                        vm.addScorecard(name: "TEST", numHoles: 5)
+                        vm.addScorecard(name: "TEST", numHoles: 5, advPutt: true)
                         vm.save()
                     }, label:{
                         Text("Add scorecard").foregroundColor(.white).frame(height: 55).frame(maxWidth: .infinity).background(Color.blue.cornerRadius(10))
                     })
+                    
                     Button(action: {
-                        
-//                        
                         vm.save()
-                        
                     }, label:{
                         Text("Add Hole").foregroundColor(.white).frame(height: 55).frame(maxWidth: .infinity).background(Color.blue.cornerRadius(10))
                     })
@@ -46,6 +38,7 @@ struct HomePageView: View {
                     }, label:{
                         Text("Add Putt").foregroundColor(.white).frame(height: 55).frame(maxWidth: .infinity).background(Color.blue.cornerRadius(10))
                     })
+                    
                     Button(action: {
                         vm.deleteScorecard()
                     }, label:{
@@ -80,7 +73,7 @@ struct HomePageView: View {
                         }
                     })
                 }.padding()
-            }.navigationTitle("TEST")
+            }
             
             
         }.navigationDestination(for: String.self){ viewItem in
@@ -101,10 +94,6 @@ struct HomePageView: View {
         default:
             return AnyView(Text("Error"))
         }
-        
-        
-    
-        
     }
     
 }
@@ -182,7 +171,7 @@ struct intermediateView:  View{
 //            })
             
                         NavigationLink(destination: CollectDataView()){BeginRoundView()}.navigationTitle("New Round").simultaneousGesture(TapGesture().onEnded{
-                            vm.addScorecard(name: id, numHoles: Int16(speed))
+                            vm.addScorecard(name: id, numHoles: Int16(speed), advPutt: advancedPutting)
                             vm.getSpecHoles(scorecard: vm.scorecards[0])
                         })
             

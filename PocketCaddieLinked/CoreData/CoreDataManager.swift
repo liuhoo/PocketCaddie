@@ -99,7 +99,7 @@ class CoreDataViewModel: ObservableObject {
         }
     }
     
-    func addScorecard(name: String, numHoles: Int16){
+    func addScorecard(name: String, numHoles: Int16, advPutt: Bool){
         let newScorecard = ScorecardModel(context: manager.context)
         newScorecard.currHole = 0
         newScorecard.detail = ""
@@ -107,16 +107,12 @@ class CoreDataViewModel: ObservableObject {
         newScorecard.totalScore = 10
         newScorecard.date = Date.now
         newScorecard.id = UUID()
-        
+        newScorecard.advPutt = advPutt
         save()
         
         for i in 0..<numHoles {
             addHole(index: i, scorecard: newScorecard)
         }
-        
-        
-            
-
     }
     
     func addHole(index: Int16, scorecard: ScorecardModel){
@@ -178,6 +174,26 @@ class CoreDataViewModel: ObservableObject {
             
     }
     
+    func updateFairway(hole: HoleModel, update: String){
+        hole.fairwayHit = update
+        putts.removeAll()
+        manager.save()
+        getPutts()
+    }
+    
+    func updateGreenHit(hole: HoleModel, update: String){
+        hole.greenHit = update
+        putts.removeAll()
+        manager.save()
+        getPutts()
+    }
+    
+    func updateUpDown(hole: HoleModel, update: String){
+        hole.upDown = update
+        putts.removeAll()
+        manager.save()
+        getPutts()
+    }
     
     func addPutt(){
         let newPutt = PuttModel(context: manager.context)
