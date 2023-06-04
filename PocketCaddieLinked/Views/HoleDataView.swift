@@ -25,6 +25,8 @@ struct CollectDataView: View {
                     //                    }
                     ForEach(vm.holes) { i in
                         HoleSelectView(HoleNumber: Int(i.holeNo), change: holeNo)
+                        
+                        
                     }
                 }.padding().cornerRadius(20).overlay(RoundedRectangle(cornerRadius: 10).inset(by: -10).strokeBorder(lineWidth: 1 ).padding(.all))
                         
@@ -63,48 +65,83 @@ struct CollectDataView: View {
                 FairwayButton(hole: currHole)
                 GreenHitButton(hole: currHole)
                 UpDownButton(hole: currHole)
-//                ForEach(currHole.putts {putt in
-//
-//                    HStack{
-//                        Text("Putt #\(putt.id+1)").font(.body)
-//                        Spacer()
-//                        Button{}label: {  Image(systemName: "arrow.uturn.left.circle")}
-//                        Button{}label: {  Image(systemName: "arrow.up.circle")}
-//                        Button{}label: {  Image(systemName: "arrow.uturn.right.circle")}
-//                        Text("|")
-//                        Button{}label: {  Image(systemName: "arrow.left.circle")}
-//                        Button{}label: {  Image(systemName: "arrow.right.circle")}
-//                        Button{}label: {  Image(systemName: "arrow.up.circle")}
-//                        Button{}label: {  Image(systemName: "arrow.down.circle")}
-//                    }.font(.title3)
-//                }
+                
+                ForEach(vm.putts) { putt in
+                    PuttButton(putt: putt, adv: currRound.advPutt)
+                }
+                      
                         
-                        
-                HStack{
-                    Text("New Putt").font(.body)
-                    Spacer()
-                    Button{}label: {  Image(systemName: "arrow.uturn.left.circle")}
-                    Button{}label: {  Image(systemName: "arrow.up.circle")}
-                    Button{}label: {  Image(systemName: "arrow.uturn.right.circle")}
-                    Text("|")
-                    Button{}label: {  Image(systemName: "arrow.left.circle")}
-                    Button{}label: {  Image(systemName: "arrow.right.circle")}
-                    Button{}label: {  Image(systemName: "arrow.up.circle")}
-                    Button{}label: {  Image(systemName: "arrow.down.circle")}
-                }.font(.title3)
                 HStack{
                     Spacer()
                     Button{
-                       
+                        vm.addPutt(hole: currHole)
+                        
                     }label: {  HStack{Text("Add Putt");Image(systemName: "plus.rectangle")}}
                     Spacer()
                 }.font(.title2)
+                
             }.padding().navigationTitle(currRound.descrip ?? "").frame(maxHeight: .infinity)
             
 
         }
     }
 }
+
+
+struct PuttButton: View {
+    @EnvironmentObject var vm: CoreDataViewModel
+    var putt: PuttModel
+    let adv : Bool
+    var body: some View {
+        HStack{
+            Text("Putt #\(putt.num+1)").font(.body)
+            Spacer()
+            if adv {
+                switch putt.breaking {
+                case "LR":
+                    Button{vm.updatePuttBreak(putt: putt, update:"LR")}label: {  Image(systemName: "arrow.uturn.left.circle.fill")}
+                    Button{vm.updatePuttBreak(putt: putt, update:"S")}label: {  Image(systemName: "arrow.up.circle")}
+                    Button{vm.updatePuttBreak(putt: putt, update:"RL")}label: {  Image(systemName: "arrow.uturn.right.circle")}
+                case "S":
+                    Button{vm.updatePuttBreak(putt: putt, update:"LR")}label: {  Image(systemName: "arrow.uturn.left.circle")}
+                    Button{vm.updatePuttBreak(putt: putt, update:"S")}label: {  Image(systemName: "arrow.up.circle.fill")}
+                    Button{vm.updatePuttBreak(putt: putt, update:"RL")}label: {  Image(systemName: "arrow.uturn.right.circle")}
+                case "RL":
+                    Button{vm.updatePuttBreak(putt: putt, update:"LR")}label: {  Image(systemName: "arrow.uturn.left.circle")}
+                    Button{vm.updatePuttBreak(putt: putt, update:"S")}label: {  Image(systemName: "arrow.up.circle")}
+                    Button{vm.updatePuttBreak(putt: putt, update:"RL")}label: {  Image(systemName: "arrow.uturn.right.circle.fill")}
+                default:
+                    Button{vm.updatePuttBreak(putt: putt, update:"LR")}label: {  Image(systemName: "arrow.uturn.left.circle")}
+                    Button{vm.updatePuttBreak(putt: putt, update:"S")}label: {  Image(systemName: "arrow.up.circle")}
+                    Button{vm.updatePuttBreak(putt: putt, update:"RL")}label: {  Image(systemName: "arrow.uturn.right.circle")}
+                }
+                Text("|")
+            }
+            VStack{
+                switch putt.miss {
+                case "L":
+                    HStack{
+                        Button{vm.updatePuttMiss(putt: putt, update:"L")}label: {  Image(systemName: "arrow.left.circle.fill")}
+                        Button{vm.updatePuttMiss(putt: putt, update:"R")}label: {  Image(systemName: "arrow.right.circle")}
+                    }
+                case "R":
+                    HStack{
+                        Button{vm.updatePuttMiss(putt: putt, update:"L")}label: {  Image(systemName: "arrow.left.circle")}
+                        Button{vm.updatePuttMiss(putt: putt, update:"R")}label: {  Image(systemName: "arrow.right.circle.fill")}
+                    }
+                default:
+                    HStack{
+                        Button{vm.updatePuttMiss(putt: putt, update:"L")}label: {  Image(systemName: "arrow.left.circle")}
+                        Button{vm.updatePuttMiss(putt: putt, update:"R")}label: {  Image(systemName: "arrow.right.circle")}
+                    }
+                }
+                Text("Miss").font(.body)
+            }
+        }.font(.title2).buttonStyle(.borderless)
+    }
+}
+
+
 
 struct FairwayButton: View {
     @EnvironmentObject var vm: CoreDataViewModel
@@ -123,7 +160,7 @@ struct FairwayButton: View {
                 Button{vm.updateFairway(hole: hole, update:"H")}label: {  Image(systemName: "checkmark.circle.fill")}
                 Button{vm.updateFairway(hole: hole, update:"R")}label: {  Image(systemName: "arrow.up.right.circle")}
             case "R":
-                Button{vm.updateFairway(hole: hole, update:"L")}label: {  Image(systemName: "arrow.up.left.circle")}.buttonStyle(.borderless)
+                Button{vm.updateFairway(hole: hole, update:"L")}label: {  Image(systemName: "arrow.up.left.circle")}
                 Button{vm.updateFairway(hole: hole, update:"H")}label: {  Image(systemName: "checkmark.circle")}
                 Button{vm.updateFairway(hole: hole, update:"R")}label: {  Image(systemName: "arrow.up.right.circle.fill")}
             default:
@@ -194,6 +231,7 @@ struct HoleSelectView: View {
             }
             Button{
                 vm.updateScorecard(index: 0 , newInd: HoleNumber)
+                vm.getSpecPutts(hole:vm.holes[HoleNumber])
             }label: {Text("\(HoleNumber+1)").font(.body)}
         }.padding(.horizontal)
     }

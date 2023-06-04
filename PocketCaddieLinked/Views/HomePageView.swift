@@ -15,29 +15,32 @@ struct HomePageView: View {
             NavigationLink(value:"intermediateView"){
                 NewRoundView()
             }
+            NavigationLink(value:"statisticView"){
+                StatisticView()
+            }
             
             ScrollView{
                 VStack(spacing: 20){
                     
-                    Button(action: {
-                        vm.addScorecard(name: "TEST", numHoles: 5, advPutt: true)
-                        vm.save()
-                    }, label:{
-                        Text("Add scorecard").foregroundColor(.white).frame(height: 55).frame(maxWidth: .infinity).background(Color.blue.cornerRadius(10))
-                    })
-                    
-                    Button(action: {
-                        vm.save()
-                    }, label:{
-                        Text("Add Hole").foregroundColor(.white).frame(height: 55).frame(maxWidth: .infinity).background(Color.blue.cornerRadius(10))
-                    })
-                    
-                    Button(action: {
-                        vm.addPutt()
-                        vm.save()
-                    }, label:{
-                        Text("Add Putt").foregroundColor(.white).frame(height: 55).frame(maxWidth: .infinity).background(Color.blue.cornerRadius(10))
-                    })
+//                    Button(action: {
+//                        vm.addScorecard(name: "TEST", numHoles: 5, advPutt: true)
+//                        vm.save()
+//                    }, label:{
+//                        Text("Add scorecard").foregroundColor(.white).frame(height: 55).frame(maxWidth: .infinity).background(Color.blue.cornerRadius(10))
+//                    })
+//
+//                    Button(action: {
+//                        vm.save()
+//                    }, label:{
+//                        Text("Add Hole").foregroundColor(.white).frame(height: 55).frame(maxWidth: .infinity).background(Color.blue.cornerRadius(10))
+//                    })
+//
+//                    Button(action: {
+//
+//                        vm.save()
+//                    }, label:{
+//                        Text("Add Putt").foregroundColor(.white).frame(height: 55).frame(maxWidth: .infinity).background(Color.blue.cornerRadius(10))
+//                    })
                     
                     Button(action: {
                         vm.deleteScorecard()
@@ -101,17 +104,19 @@ struct RoundCollectionView: View {
     @EnvironmentObject var vm: CoreDataViewModel
 
     var body: some View {
-        
-        ScrollView(.horizontal, showsIndicators: true, content:{
-            HStack(alignment: .top){
-                ForEach(vm.scorecards){ hi in
-                    ScorecardView(entity: hi)
-                    
-                }
-            }
-        })
-        
-
+        List(){ForEach(vm.scorecards){ round in
+            NavigationLink {
+                Text("\(round.date ?? Date())")
+                
+                
+            } label: {
+                Text("\(round.descrip ?? "no name given")")
+            }.navigationTitle("Completed Rounds")
+        }
+            
+            
+            
+        }
         
     }
 }
@@ -157,6 +162,7 @@ struct intermediateView:  View{
                         }
                     )
                 }
+                
                 Section(){
                     Button("Clear Current Inputs") {
                         desc = ""
@@ -173,6 +179,7 @@ struct intermediateView:  View{
                         NavigationLink(destination: CollectDataView()){BeginRoundView()}.navigationTitle("New Round").simultaneousGesture(TapGesture().onEnded{
                             vm.addScorecard(name: id, numHoles: Int16(speed), advPutt: advancedPutting)
                             vm.getSpecHoles(scorecard: vm.scorecards[0])
+                            vm.collectPutts(hole: vm.holes[0])
                         })
             
         }
@@ -259,7 +266,8 @@ struct PuttView: View{
         VStack(alignment: .leading, spacing: 20, content: {
             Text("Name: \(String(entity.num))")
             
-            Text("Hole \(entity.hole?.upDown ?? "ERROR")")
+            Text("Hole \(entity.hole?.holeNo ?? 0)")
+            Text("Scorecard \(entity.hole?.scorecard?.descrip ?? "ERROR")")
                 
             
         }).padding().frame(maxWidth: 300, alignment: .leading).background(Color.gray.opacity(0.5)).cornerRadius(10).shadow(radius: 10)

@@ -99,6 +99,49 @@ class CoreDataViewModel: ObservableObject {
         }
     }
     
+    
+    
+    
+    func getSpecPutts(hole: HoleModel){
+        let request = NSFetchRequest<PuttModel>(entityName: "PuttModel")
+        let sort = NSSortDescriptor(keyPath: \PuttModel.num, ascending: true)
+        let filter = NSPredicate(format: "hole == %@", hole )
+        request.sortDescriptors = [sort]
+        request.predicate = filter
+        do{
+            putts = try manager.context.fetch(request)
+
+        } catch let error {
+            print("ERROR FETCHING. \(error.localizedDescription)")
+        }
+        
+    }
+    
+
+    
+    func addPutt(hole: HoleModel){
+        let newPutt = PuttModel(context: manager.context)
+        newPutt.num = Int16(hole.putts?.count ?? 0)
+        hole.addToPutts(newPutt)
+        putts.removeAll()
+        manager.save()
+        getSpecPutts(hole: hole)
+        
+    }
+    
+    func collectPutts(hole: HoleModel){
+        putts.removeAll()
+        manager.save()
+        getSpecPutts(hole: hole)
+    }
+    
+    
+    
+    
+    
+    
+    
+    
     func addScorecard(name: String, numHoles: Int16, advPutt: Bool){
         let newScorecard = ScorecardModel(context: manager.context)
         newScorecard.currHole = 0
@@ -165,9 +208,10 @@ class CoreDataViewModel: ObservableObject {
     
     func decrementPar(scorecard: ScorecardModel, index: Int){
         let filter = scorecard.holes?.allObjects as? [HoleModel]
-        
+
         let item = filter!.first(where:{$0.holeNo == index})!
         item.par = item.par - 1
+        
         holes.removeAll()
         manager.save()
         getSpecHoles(scorecard: scorecard)
@@ -175,31 +219,75 @@ class CoreDataViewModel: ObservableObject {
     }
     
     func updateFairway(hole: HoleModel, update: String){
-        hole.fairwayHit = update
+        if update == hole.fairwayHit{
+            hole.fairwayHit = ""
+        } else {
+            hole.fairwayHit = update
+        }
+        
         putts.removeAll()
         manager.save()
-        getPutts()
+        getSpecPutts(hole: hole)
     }
     
     func updateGreenHit(hole: HoleModel, update: String){
-        hole.greenHit = update
+        if update == hole.greenHit{
+            hole.greenHit = ""
+        } else {
+            hole.greenHit = update
+        }
+        
         putts.removeAll()
         manager.save()
-        getPutts()
+        getSpecPutts(hole: hole)
     }
     
     func updateUpDown(hole: HoleModel, update: String){
-        hole.upDown = update
+        if update == hole.upDown{
+            hole.upDown = ""
+        } else {
+            hole.upDown = update
+        }
+        putts.removeAll()
+        manager.save()
+        getSpecPutts(hole: hole)
+    }
+    
+    
+    func updatePuttBreak(putt: PuttModel, update: String){
+        if update == putt.breaking{
+            putt.breaking = ""
+        } else {
+            putt.breaking = update
+        }
+        scorecards.removeAll()
+        manager.save()
+        getScorecards()
+    }
+    
+    
+    
+    func updatePuttMiss(putt: PuttModel, update: String){
+        if update == putt.miss{
+            putt.miss = ""
+        } else {
+            putt.miss = update
+        }
+        scorecards.removeAll()
+        manager.save()
+        getScorecards()
+    }
+    
+    func updateMiss(putt: PuttModel, update: String){
+        if update == putt.miss{
+            putt.breaking = ""
+        } else {
+            putt.breaking = update
+        }
         putts.removeAll()
         manager.save()
         getPutts()
-    }
-    
-    func addPutt(){
-        let newPutt = PuttModel(context: manager.context)
-        newPutt.num = 1
-        newPutt.hole = holes[0]
-        save()
+        
     }
     
     func updateScorecard(index: Int, newInd: Int){
