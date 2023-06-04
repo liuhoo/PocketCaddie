@@ -9,7 +9,7 @@ import SwiftUI
 
 struct HomePageView: View {
     @EnvironmentObject var vm: CoreDataViewModel
-    
+    @EnvironmentObject var appState: AppState
     var body: some View {
         VStack {
             NavigationLink(value:"intermediateView"){

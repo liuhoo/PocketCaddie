@@ -11,6 +11,7 @@ struct CollectDataView: View {
     @State var ParStepper: Int = 0
     @State var ScoreStepper: Int = 0
     @EnvironmentObject var vm: CoreDataViewModel
+    @EnvironmentObject var appState: AppState
     var body: some View {
         let currRound = vm.scorecards[0]
         var holeNo = Int(currRound.currHole)
@@ -81,7 +82,30 @@ struct CollectDataView: View {
                 }.font(.title2)
                 
             }.padding().navigationTitle(currRound.descrip ?? "").frame(maxHeight: .infinity)
-            
+            if holeNo == vm.holes.count-1{
+                HStack{
+                    Button("Previous Hole"){
+                        vm.updateHoleNum(scorecard: currRound, index: holeNo-1)
+                    }.buttonStyle(.borderedProminent)
+                    Button("Finish Round"){
+                        appState.popToRoot()
+                    }.buttonStyle(.borderedProminent)
+                }
+            } else if holeNo == 0 {
+                Button("Next Hole"){
+                    vm.updateHoleNum(scorecard: currRound, index: holeNo+1)
+                }.buttonStyle(.borderedProminent)
+            } else{
+                HStack{
+                    Button("Previous Hole"){
+                        vm.updateHoleNum(scorecard: currRound, index: holeNo-1)
+                    }.buttonStyle(.borderedProminent)
+                    Button("Next Hole"){
+                        vm.updateHoleNum(scorecard: currRound, index: holeNo+1)
+                    }.buttonStyle(.borderedProminent)
+                }
+                
+            }
 
         }
     }
@@ -117,26 +141,44 @@ struct PuttButton: View {
                 }
                 Text("|")
             }
-            VStack{
-                switch putt.miss {
-                case "L":
-                    HStack{
-                        Button{vm.updatePuttMiss(putt: putt, update:"L")}label: {  Image(systemName: "arrow.left.circle.fill")}
-                        Button{vm.updatePuttMiss(putt: putt, update:"R")}label: {  Image(systemName: "arrow.right.circle")}
-                    }
-                case "R":
-                    HStack{
-                        Button{vm.updatePuttMiss(putt: putt, update:"L")}label: {  Image(systemName: "arrow.left.circle")}
-                        Button{vm.updatePuttMiss(putt: putt, update:"R")}label: {  Image(systemName: "arrow.right.circle.fill")}
-                    }
-                default:
-                    HStack{
-                        Button{vm.updatePuttMiss(putt: putt, update:"L")}label: {  Image(systemName: "arrow.left.circle")}
-                        Button{vm.updatePuttMiss(putt: putt, update:"R")}label: {  Image(systemName: "arrow.right.circle")}
-                    }
+            
+            switch putt.miss {
+            case "L":
+                HStack{
+                    Button{vm.updatePuttMiss(putt: putt, update:"L")}label: {  Image(systemName: "arrow.left.circle.fill")}
+                    Button{vm.updatePuttMiss(putt: putt, update:"R")}label: {  Image(systemName: "arrow.right.circle")}
                 }
-                Text("Miss").font(.body)
+            case "R":
+                HStack{
+                    Button{vm.updatePuttMiss(putt: putt, update:"L")}label: {  Image(systemName: "arrow.left.circle")}
+                    Button{vm.updatePuttMiss(putt: putt, update:"R")}label: {  Image(systemName: "arrow.right.circle.fill")}
+                }
+            default:
+                HStack{
+                    Button{vm.updatePuttMiss(putt: putt, update:"L")}label: {  Image(systemName: "arrow.left.circle")}
+                    Button{vm.updatePuttMiss(putt: putt, update:"R")}label: {  Image(systemName: "arrow.right.circle")}
+                }
             }
+//            VStack{
+//                switch putt.miss {
+//                case "L":
+//                    HStack{
+//                        Button{vm.updatePuttMiss(putt: putt, update:"L")}label: {  Image(systemName: "arrow.left.circle.fill")}
+//                        Button{vm.updatePuttMiss(putt: putt, update:"R")}label: {  Image(systemName: "arrow.right.circle")}
+//                    }
+//                case "R":
+//                    HStack{
+//                        Button{vm.updatePuttMiss(putt: putt, update:"L")}label: {  Image(systemName: "arrow.left.circle")}
+//                        Button{vm.updatePuttMiss(putt: putt, update:"R")}label: {  Image(systemName: "arrow.right.circle.fill")}
+//                    }
+//                default:
+//                    HStack{
+//                        Button{vm.updatePuttMiss(putt: putt, update:"L")}label: {  Image(systemName: "arrow.left.circle")}
+//                        Button{vm.updatePuttMiss(putt: putt, update:"R")}label: {  Image(systemName: "arrow.right.circle")}
+//                    }
+//                }
+//                Text("Miss").font(.body)
+//            }
         }.font(.title2).buttonStyle(.borderless)
     }
 }

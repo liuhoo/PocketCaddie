@@ -193,6 +193,13 @@ class CoreDataViewModel: ObservableObject {
             
     }
     
+    func updateHoleNum(scorecard: ScorecardModel, index: Int){
+        scorecard.currHole = Int16(index)
+        scorecards.removeAll()
+        manager.save()
+        getScorecards()
+        
+    }
     
     
     func incrementPar(scorecard: ScorecardModel, index: Int){
