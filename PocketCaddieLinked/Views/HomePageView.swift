@@ -48,8 +48,6 @@ struct HomePageView: View {
                         Text("DELETE").foregroundColor(.white).frame(height: 55).frame(maxWidth: .infinity).background(Color.blue.cornerRadius(10))
                     })
                     
-                    
-                    
                     ScrollView(.horizontal, showsIndicators: true, content:{
                         HStack(alignment: .top){
                             ForEach(vm.scorecards){ hi in
@@ -77,8 +75,6 @@ struct HomePageView: View {
                     })
                 }.padding()
             }
-            
-            
         }.navigationDestination(for: String.self){ viewItem in
             selectView(item: viewItem)
             
@@ -86,8 +82,7 @@ struct HomePageView: View {
         
         
     }
-    
-    
+
     func selectView(item: String) ->  AnyView{
         switch item{
         case "intermediateView":
@@ -98,26 +93,20 @@ struct HomePageView: View {
             return AnyView(Text("Error"))
         }
     }
-    
 }
 struct RoundCollectionView: View {
     @EnvironmentObject var vm: CoreDataViewModel
-
+    
     var body: some View {
-        List(){ForEach(vm.scorecards){ round in
-            NavigationLink {
-                Text("\(round.date ?? Date())")
-                
-                
-            } label: {
-                Text("\(round.descrip ?? "no name given")")
-            }.navigationTitle("Completed Rounds")
+        List(){
+            ForEach(vm.scorecards){ round in
+                NavigationLink {
+                    Text("\(round.date ?? Date())")
+                } label: {
+                    Text("\(round.descrip ?? "no name given")")
+                }.navigationTitle("Completed Rounds")
+            }
         }
-            
-            
-            
-        }
-        
     }
 }
     
@@ -171,10 +160,6 @@ struct intermediateView:  View{
                     }
                 }
             }
-//            NavigationLink(destination: Text("NEW ROUND CreATED")){Text("NEW ROUND")}.navigationTitle("New Round").simultaneousGesture(TapGesture().onEnded{
-//
-//
-//            })
             
                         NavigationLink(destination: CollectDataView()){BeginRoundView()}.navigationTitle("New Round").simultaneousGesture(TapGesture().onEnded{
                             vm.addScorecard(name: id, numHoles: Int16(speed), advPutt: advancedPutting)
@@ -187,8 +172,6 @@ struct intermediateView:  View{
         
     }
 }
-
-
 
 struct StatisticView: View {
     var body: some View {
@@ -213,9 +196,6 @@ struct NewRoundView: View {
         
     }
 }
-    
-
-
 
 struct ScorecardView: View{
     let entity: ScorecardModel

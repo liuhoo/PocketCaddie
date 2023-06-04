@@ -20,28 +20,14 @@ struct CollectDataView: View {
             ZStack{
 
                 LazyVGrid(columns: [GridItem(),GridItem(),GridItem()]){
-                    //                    ForEach(currRound.holes[0..<currRound.holes.count], id: \.self) {i in
-                    ////                        NavigationLink(destination: Text("HERE")){HoleSelectView(HoleNumber: i.id)}
-                    //                        HoleSelectView(HoleNumber: i.holeNo+1)
-                    //                    }
                     ForEach(vm.holes) { i in
                         HoleSelectView(HoleNumber: Int(i.holeNo), change: holeNo)
-                        
-                        
                     }
                 }.padding().cornerRadius(20).overlay(RoundedRectangle(cornerRadius: 10).inset(by: -10).strokeBorder(lineWidth: 1 ).padding(.all))
                         
 
             }.frame(alignment: .topLeading)
             List{
-//                HStack(){
-//
-//                    Text("Current Score")
-//                    Spacer()
-//                    ForEach(vm.getHoles(roundNo: element)) {hole in
-//                        vm.getRound(index: element).totScore += 1
-//                    }
-//                }
                 HStack{
                     Spacer()
                     Text("Hole No: \(currHole.holeNo + 1)")
@@ -104,9 +90,7 @@ struct CollectDataView: View {
                         vm.updateHoleNum(scorecard: currRound, index: holeNo+1)
                     }.buttonStyle(.borderedProminent)
                 }
-                
             }
-
         }
     }
 }

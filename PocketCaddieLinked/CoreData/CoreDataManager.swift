@@ -300,9 +300,6 @@ class CoreDataViewModel: ObservableObject {
     func updateScorecard(index: Int, newInd: Int){
         let existingScorecard = scorecards[index]
         existingScorecard.currHole = Int16(newInd)
-//        holes.removeAll()
-//        manager.save()
-//        getSpecHoles(scorecard: existingScorecard)
         scorecards.removeAll()
         manager.save()
         getScorecards()
