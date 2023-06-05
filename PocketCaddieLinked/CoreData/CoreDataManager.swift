@@ -195,10 +195,9 @@ class CoreDataViewModel: ObservableObject {
     
     func updateHoleNum(scorecard: ScorecardModel, index: Int){
         scorecard.currHole = Int16(index)
-        scorecards.removeAll()
+        putts.removeAll()
         manager.save()
-        getScorecards()
-        
+        getSpecPutts(hole: holes[index])
     }
     
     

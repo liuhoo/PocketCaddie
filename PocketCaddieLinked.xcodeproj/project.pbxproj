@@ -15,6 +15,8 @@
 		5F60462D2A2685D00065BB51 /* HomePageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F60462C2A2685D00065BB51 /* HomePageView.swift */; };
 		5F60462F2A2711FA0065BB51 /* HoleDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F60462E2A2711FA0065BB51 /* HoleDataView.swift */; };
 		5F6046332A2D19EF0065BB51 /* AppNavigationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6046322A2D19EE0065BB51 /* AppNavigationManager.swift */; };
+		5F6046352A2D25910065BB51 /* RoundAnalysisView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6046342A2D25910065BB51 /* RoundAnalysisView.swift */; };
+		5F6046372A2D25E10065BB51 /* RoundInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6046362A2D25E10065BB51 /* RoundInputView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +29,8 @@
 		5F60462C2A2685D00065BB51 /* HomePageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePageView.swift; sourceTree = "<group>"; };
 		5F60462E2A2711FA0065BB51 /* HoleDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HoleDataView.swift; sourceTree = "<group>"; };
 		5F6046322A2D19EE0065BB51 /* AppNavigationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNavigationManager.swift; sourceTree = "<group>"; };
+		5F6046342A2D25910065BB51 /* RoundAnalysisView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundAnalysisView.swift; sourceTree = "<group>"; };
+		5F6046362A2D25E10065BB51 /* RoundInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundInputView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,7 +94,9 @@
 			isa = PBXGroup;
 			children = (
 				5F60462C2A2685D00065BB51 /* HomePageView.swift */,
+				5F6046342A2D25910065BB51 /* RoundAnalysisView.swift */,
 				5F60462E2A2711FA0065BB51 /* HoleDataView.swift */,
+				5F6046362A2D25E10065BB51 /* RoundInputView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -166,6 +172,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				5F6046182A267D190065BB51 /* PocketCaddieLinkedApp.swift in Sources */,
+				5F6046352A2D25910065BB51 /* RoundAnalysisView.swift in Sources */,
+				5F6046372A2D25E10065BB51 /* RoundInputView.swift in Sources */,
 				5F60462A2A2684EE0065BB51 /* CoreDataManager.swift in Sources */,
 				5F60462F2A2711FA0065BB51 /* HoleDataView.swift in Sources */,
 				5F6046332A2D19EF0065BB51 /* AppNavigationManager.swift in Sources */,

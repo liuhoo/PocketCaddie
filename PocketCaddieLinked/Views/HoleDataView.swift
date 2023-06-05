@@ -12,6 +12,7 @@ struct CollectDataView: View {
     @State var ScoreStepper: Int = 0
     @EnvironmentObject var vm: CoreDataViewModel
     @EnvironmentObject var appState: AppState
+    @State var selection: String = "1"
     var body: some View {
         let currRound = vm.scorecards[0]
         var holeNo = Int(currRound.currHole)
@@ -54,7 +55,11 @@ struct CollectDataView: View {
                 UpDownButton(hole: currHole)
                 
                 ForEach(vm.putts) { putt in
-                    PuttButton(putt: putt, adv: currRound.advPutt)
+//                    PuttButton(putt: putt, adv: currRound.advPutt)
+            
+                    PuttButton(putt: putt, adv: currRound.advPutt, breakInput: putt.breaking ?? "Break?", missInput: putt.miss ?? "Miss?")
+                        
+                    
                 }
                       
                         
@@ -91,6 +96,7 @@ struct CollectDataView: View {
                     }.buttonStyle(.borderedProminent)
                 }
             }
+            
         }
     }
 }
@@ -100,49 +106,77 @@ struct PuttButton: View {
     @EnvironmentObject var vm: CoreDataViewModel
     var putt: PuttModel
     let adv : Bool
+    let breaking = ["Break?", "Left-Right","Right-Left", "Straight"]
+    let miss = ["Miss?", "Left","Right", "Make"]
+    @State var breakInput: String = "Break?"
+    @State var missInput: String = "Miss?"
     var body: some View {
         HStack{
             Text("Putt #\(putt.num+1)").font(.body)
             Spacer()
-            if adv {
-                switch putt.breaking {
-                case "LR":
-                    Button{vm.updatePuttBreak(putt: putt, update:"LR")}label: {  Image(systemName: "arrow.uturn.left.circle.fill")}
-                    Button{vm.updatePuttBreak(putt: putt, update:"S")}label: {  Image(systemName: "arrow.up.circle")}
-                    Button{vm.updatePuttBreak(putt: putt, update:"RL")}label: {  Image(systemName: "arrow.uturn.right.circle")}
-                case "S":
-                    Button{vm.updatePuttBreak(putt: putt, update:"LR")}label: {  Image(systemName: "arrow.uturn.left.circle")}
-                    Button{vm.updatePuttBreak(putt: putt, update:"S")}label: {  Image(systemName: "arrow.up.circle.fill")}
-                    Button{vm.updatePuttBreak(putt: putt, update:"RL")}label: {  Image(systemName: "arrow.uturn.right.circle")}
-                case "RL":
-                    Button{vm.updatePuttBreak(putt: putt, update:"LR")}label: {  Image(systemName: "arrow.uturn.left.circle")}
-                    Button{vm.updatePuttBreak(putt: putt, update:"S")}label: {  Image(systemName: "arrow.up.circle")}
-                    Button{vm.updatePuttBreak(putt: putt, update:"RL")}label: {  Image(systemName: "arrow.uturn.right.circle.fill")}
-                default:
-                    Button{vm.updatePuttBreak(putt: putt, update:"LR")}label: {  Image(systemName: "arrow.uturn.left.circle")}
-                    Button{vm.updatePuttBreak(putt: putt, update:"S")}label: {  Image(systemName: "arrow.up.circle")}
-                    Button{vm.updatePuttBreak(putt: putt, update:"RL")}label: {  Image(systemName: "arrow.uturn.right.circle")}
-                }
-                Text("|")
-            }
+//            if adv {
+//                switch putt.breaking {
+//                case "LR":
+//                    Button{vm.updatePuttBreak(putt: putt, update:"LR")}label: {  Image(systemName: "arrow.uturn.left.circle.fill")}
+//                    Button{vm.updatePuttBreak(putt: putt, update:"S")}label: {  Image(systemName: "arrow.up.circle")}
+//                    Button{vm.updatePuttBreak(putt: putt, update:"RL")}label: {  Image(systemName: "arrow.uturn.right.circle")}
+//                case "S":
+//                    Button{vm.updatePuttBreak(putt: putt, update:"LR")}label: {  Image(systemName: "arrow.uturn.left.circle")}
+//                    Button{vm.updatePuttBreak(putt: putt, update:"S")}label: {  Image(systemName: "arrow.up.circle.fill")}
+//                    Button{vm.updatePuttBreak(putt: putt, update:"RL")}label: {  Image(systemName: "arrow.uturn.right.circle")}
+//                case "RL":
+//                    Button{vm.updatePuttBreak(putt: putt, update:"LR")}label: {  Image(systemName: "arrow.uturn.left.circle")}
+//                    Button{vm.updatePuttBreak(putt: putt, update:"S")}label: {  Image(systemName: "arrow.up.circle")}
+//                    Button{vm.updatePuttBreak(putt: putt, update:"RL")}label: {  Image(systemName: "arrow.uturn.right.circle.fill")}
+//                default:
+//                    Button{vm.updatePuttBreak(putt: putt, update:"LR")}label: {  Image(systemName: "arrow.uturn.left.circle")}
+//                    Button{vm.updatePuttBreak(putt: putt, update:"S")}label: {  Image(systemName: "arrow.up.circle")}
+//                    Button{vm.updatePuttBreak(putt: putt, update:"RL")}label: {  Image(systemName: "arrow.uturn.right.circle")}
+//                }
+//                Text("|")
+//            }
             
-            switch putt.miss {
-            case "L":
-                HStack{
-                    Button{vm.updatePuttMiss(putt: putt, update:"L")}label: {  Image(systemName: "arrow.left.circle.fill")}
-                    Button{vm.updatePuttMiss(putt: putt, update:"R")}label: {  Image(systemName: "arrow.right.circle")}
+//            switch putt.miss {
+//            case "L":
+//                HStack{
+//                    Button{vm.updatePuttMiss(putt: putt, update:"L")}label: {  Image(systemName: "arrow.left.circle.fill")}
+//                    Button{vm.updatePuttMiss(putt: putt, update:"R")}label: {  Image(systemName: "arrow.right.circle")}
+//                }
+//            case "R":
+//                HStack{
+//                    Button{vm.updatePuttMiss(putt: putt, update:"L")}label: {  Image(systemName: "arrow.left.circle")}
+//                    Button{vm.updatePuttMiss(putt: putt, update:"R")}label: {  Image(systemName: "arrow.right.circle.fill")}
+//                }
+//            default:
+//                HStack{
+//                    Button{vm.updatePuttMiss(putt: putt, update:"L")}label: {  Image(systemName: "arrow.left.circle")}
+//                    Button{vm.updatePuttMiss(putt: putt, update:"R")}label: {  Image(systemName: "arrow.right.circle")}
+//                }
+//            }
+            
+            if adv {
+                Picker("", selection: $breakInput) {
+                    ForEach(breaking, id: \.self) {
+                        Text($0).font(.body)
+                    }
                 }
-            case "R":
-                HStack{
-                    Button{vm.updatePuttMiss(putt: putt, update:"L")}label: {  Image(systemName: "arrow.left.circle")}
-                    Button{vm.updatePuttMiss(putt: putt, update:"R")}label: {  Image(systemName: "arrow.right.circle.fill")}
-                }
-            default:
-                HStack{
-                    Button{vm.updatePuttMiss(putt: putt, update:"L")}label: {  Image(systemName: "arrow.left.circle")}
-                    Button{vm.updatePuttMiss(putt: putt, update:"R")}label: {  Image(systemName: "arrow.right.circle")}
+                .pickerStyle(.menu).labelsHidden().onChange(of: breakInput, perform:{ (value) in
+                    vm.updatePuttBreak(putt: putt, update:value)
+                })
+            }
+                
+            
+            Spacer()
+            Picker("", selection: $missInput) {
+                ForEach(miss, id: \.self) {
+                    Text($0).font(.body)
                 }
             }
+            .pickerStyle(.menu).labelsHidden().onChange(of: missInput, perform:{ (value) in
+                vm.updatePuttMiss(putt: putt, update:value)
+            })
+            
+            
 //            VStack{
 //                switch putt.miss {
 //                case "L":
@@ -167,7 +201,22 @@ struct PuttButton: View {
     }
 }
 
+struct ContentView: View {
+    @State private var selection = "Miss"
+    let colors = ["Miss","Red", "Green", "Blue", "Black", "Tartan"]
 
+    var body: some View {
+        VStack {
+            Picker("", selection: $selection) {
+                ForEach(colors, id: \.self) {
+                    Text($0)
+                }
+            }
+            .pickerStyle(.menu).labelsHidden()
+
+        }
+    }
+}
 
 struct FairwayButton: View {
     @EnvironmentObject var vm: CoreDataViewModel

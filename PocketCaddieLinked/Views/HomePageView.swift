@@ -61,7 +61,6 @@ struct HomePageView: View {
                         HStack(alignment: .top){
                             ForEach(vm.holes){ hole in
                                 HoleView(entity: hole)
-                                
                             }
                         }
                     })
@@ -69,7 +68,6 @@ struct HomePageView: View {
                         HStack(alignment: .top){
                             ForEach(vm.putts){ putt in
                                 PuttView(entity: putt)
-                                
                             }
                         }
                     })
@@ -86,90 +84,12 @@ struct HomePageView: View {
     func selectView(item: String) ->  AnyView{
         switch item{
         case "intermediateView":
-            return AnyView(intermediateView())
+            return AnyView(InfoView())
         case "statisticView":
             return AnyView(RoundCollectionView())
         default:
             return AnyView(Text("Error"))
         }
-    }
-}
-struct RoundCollectionView: View {
-    @EnvironmentObject var vm: CoreDataViewModel
-    
-    var body: some View {
-        List(){
-            ForEach(vm.scorecards){ round in
-                NavigationLink {
-                    Text("\(round.date ?? Date())")
-                } label: {
-                    Text("\(round.descrip ?? "no name given")")
-                }.navigationTitle("Completed Rounds")
-            }
-        }
-    }
-}
-    
-
-struct intermediateView:  View{
-    
-    @EnvironmentObject var vm: CoreDataViewModel
-    @State private var id = ""
-    @State private var desc = ""
-    @State private var advancedPutting = false
-    @State private var speed = 9.0
-    @State private var isEditing = false
-    
-    
-    var body: some View {
-        
-        
-        VStack {
-            
-            Form {
-                Section(header: Text("General"), footer: Text("Round name needs to be unique.")) {
-                    TextField(text: $id, prompt: Text("Unique Round Name")) {
-                        Text("Round Name")
-                    }.autocorrectionDisabled(true).disableAutocorrection(true)
-                    TextField(text: $desc, prompt: Text("Description")) {
-                        Text("Description")
-                    }.autocorrectionDisabled(true).disableAutocorrection(true)
-                }
-                Section(header: Text("Round Options")){
-                    Toggle("Advanced Putting Stats", isOn: $advancedPutting)
-                }
-                
-                Section(header: Text("User Profiles")) {
-                    Text(String(format: "Number of Holes: %.0f", speed))
-                        .foregroundColor(isEditing ? .red : .blue)
-                    Slider(
-                        value: $speed,
-                        in: 1...18,
-                        step: 1,
-                        onEditingChanged: { editing in
-                            isEditing = editing
-                        }
-                    )
-                }
-                
-                Section(){
-                    Button("Clear Current Inputs") {
-                        desc = ""
-                        id = ""
-                        advancedPutting = false
-                    }
-                }
-            }
-            
-                        NavigationLink(destination: CollectDataView()){BeginRoundView()}.navigationTitle("New Round").simultaneousGesture(TapGesture().onEnded{
-                            vm.addScorecard(name: id, numHoles: Int16(speed), advPutt: advancedPutting)
-                            vm.getSpecHoles(scorecard: vm.scorecards[0])
-                            vm.collectPutts(hole: vm.holes[0])
-                        })
-            
-        }
-        
-        
     }
 }
 
@@ -192,10 +112,10 @@ struct NewRoundView: View {
                 .font(.largeTitle)
         }
         .padding(.horizontal)
-        //                Button(action: {}, label: {Text("Begin Round (Goodluck!)").font(.headline).frame(height:55).background(Color.accentColor).cornerRadius(10)})
-        
     }
 }
+
+
 
 struct ScorecardView: View{
     let entity: ScorecardModel
@@ -254,19 +174,4 @@ struct PuttView: View{
     }
 }
 
-
-struct BeginRoundView: View {
-    var body: some View {
-        
-        
-        ZStack{
-            RoundedRectangle(cornerRadius: 20)
-            Text("Begin Round (Goodluck!)").foregroundColor(.white).font(.headline)
-                .font(.largeTitle)
-        }
-        .padding(.horizontal).frame(maxHeight: UIScreen.main.bounds.size.height/10)
-//                Button(action: {}, label: {Text("Begin Round (Goodluck!)").font(.headline).frame(height:55).background(Color.accentColor).cornerRadius(10)})
-   
-    }
-}
 
