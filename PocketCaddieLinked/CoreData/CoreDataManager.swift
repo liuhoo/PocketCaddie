@@ -68,13 +68,14 @@ class CoreDataViewModel: ObservableObject {
         request.predicate = filter
         do{
             holes = try manager.context.fetch(request)
+            print("GOT THE SCORECARDS: \(scorecard.descrip!)")
 
         } catch let error {
             print("ERROR FETCHING. \(error.localizedDescription)")
         }
         
     }
-    
+   
     
     
     func getHoles(){
@@ -117,6 +118,7 @@ class CoreDataViewModel: ObservableObject {
         
     }
     
+
 
     
     func addPutt(hole: HoleModel){

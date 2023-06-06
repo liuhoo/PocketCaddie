@@ -9,42 +9,61 @@ import SwiftUI
 
 struct RoundCollectionView: View {
     @EnvironmentObject var vm: CoreDataViewModel
-    
+    @EnvironmentObject var appState: AppState
     var body: some View {
-        List(){
+        ScrollView{
+            LazyVGrid(columns: [GridItem()]){
+                
+            }
             ForEach(vm.scorecards){ round in
-                NavigationLink {
-                    RoundDisplayView(currRound: round)
-                } label: {
-                    Text("\(round.descrip ?? "no name given")")
-                }.navigationTitle("Completed Rounds")
+                
+                
+                
+                NavigationLink (destination: RoundDisplayView(currRound: round)) {
+                    ZStack{
+                        RoundedRectangle(cornerRadius: 10).strokeBorder(lineWidth: 1)
+                        Text("\(round.descrip ?? "no name given")")
+                    }.aspectRatio(8/1, contentMode: .fit)
+                }.padding(.horizontal).navigationTitle("Completed Rounds").simultaneousGesture(TapGesture().onEnded{
+                    vm.getSpecHoles(scorecard: round)
+                })
             }
         }
+        
     }
 }
 
 struct RoundDisplayView: View{
     @EnvironmentObject var vm: CoreDataViewModel
     let currRound: ScorecardModel
+    
     var body: some View {
-        
         VStack{
-            LazyVGrid(columns: [GridItem(),GridItem(),GridItem()]){
+            ScrollView(.vertical){
                 
-                ForEach(vm.holes) { hole in
-                    HoleDisplayView(currHole: hole)
+                
+                
+                LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())],
+                          alignment: .center, spacing: 10){
+                    
+                    ForEach(vm.holes) { hole in
+                        HoleDisplayView(currHole: hole)
+                    }
+                    
+                }.navigationTitle("\(currRound.descrip ?? "") Scorecard")
+                HStack{
+                    
+                    Text("  Analysis")
+                        .font(.title)
+                        .fontWeight(.bold).frame(alignment: .leading)
+                    Spacer()
                 }
-                
-            }.padding().cornerRadius(20).overlay(RoundedRectangle(cornerRadius: 10).inset(by: -10).strokeBorder(lineWidth: 1 ).padding(.all)).navigationTitle("\(currRound.descrip ?? "") Scorecard")
-            HStack{
-                
-                Text("  Analysis")
-                    .font(.title)
-                    .fontWeight(.bold).frame(alignment: .leading)
-                Spacer()
-            }
-            Spacer()
+            }.padding(.all).frame(maxWidth: .infinity, maxHeight: .infinity)
+            
+            
         }
+        
+        
     }
 }
 
@@ -56,49 +75,44 @@ struct HoleDisplayView: View{
         
         
         ZStack{
-            RoundedRectangle(cornerRadius: 10).strokeBorder(lineWidth: 1)
+            RoundedRectangle(cornerRadius: 10).strokeBorder(lineWidth: 3)
             
             VStack{
                 Spacer()
                 HStack{
-                    Text(" Hole:")
+                    Text("  Hole:")
                     Spacer()
-                    Text("\(currHole.holeNo+1) ")
+                    Text("\(currHole.holeNo+1)  ")
                 }
                 
-                Text("-")
+
+                RoundedRectangle(cornerRadius: 0)
+                    .fill().frame(height: 1)
                 
+
                 HStack{
-                    Text(" Score:")
+                    Text("  Score:")
                     Spacer()
-                    Text("\(currHole.score) ")
+                    Text("\(currHole.score)  ")
                 }
-            
-                Text("-")
+               
+
+                RoundedRectangle(cornerRadius: 0)
+                    .fill().frame(height: 1)
                 
+
                 HStack{
-                    Text(" Par:")
+                    Text("  Par:")
                     Spacer()
-                    Text("\(currHole.par) ")
+                    Text("\(currHole.par)  ")
                 }
                 
                 Spacer()
             }
         }
+//        .padding(.horizontal)
         
         
-    }
-}
-
-struct KeyView: View{
-    var body: some View {
-        VStack{
-            Text("Hole")
-            Text("-")
-            Text("Score")
-            Text("-")
-            Text("Par")
-        }.font(.caption2)
     }
 }
 

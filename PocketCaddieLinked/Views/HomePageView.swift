@@ -47,6 +47,11 @@ struct HomePageView: View {
                     }, label:{
                         Text("DELETE").foregroundColor(.white).frame(height: 55).frame(maxWidth: .infinity).background(Color.blue.cornerRadius(10))
                     })
+                    Button(action: {
+                        vm.save()
+                    }, label:{
+                        Text("Update").foregroundColor(.white).frame(height: 55).frame(maxWidth: .infinity).background(Color.blue.cornerRadius(10))
+                    })
                     
                     ScrollView(.horizontal, showsIndicators: true, content:{
                         HStack(alignment: .top){
