@@ -12,9 +12,9 @@ struct CollectDataView: View {
     @State var ScoreStepper: Int = 0
     @EnvironmentObject var vm: CoreDataViewModel
     @EnvironmentObject var appState: AppState
-    @State var selection: String = "1"
+    var currRound: ScorecardModel
     var body: some View {
-        let currRound = vm.scorecards[0]
+        
         var holeNo = Int(currRound.currHole)
         var currHole = vm.holes[holeNo]
         VStack(alignment: .center, spacing:0){
@@ -73,7 +73,16 @@ struct CollectDataView: View {
                 }.font(.title2)
                 
             }.padding().navigationTitle(currRound.descrip ?? "").frame(maxHeight: .infinity)
-            if holeNo == vm.holes.count-1{
+            if vm.holes.count == 1{
+                
+                HStack{
+                    Button("Finish Round"){
+                        appState.popToRoot()
+                    }.buttonStyle(.borderedProminent)
+                }
+                
+            }
+            else if holeNo == vm.holes.count-1{
                 HStack{
                     Button("Previous Hole"){
                         vm.updateHoleNum(scorecard: currRound, index: holeNo-1)
@@ -86,7 +95,7 @@ struct CollectDataView: View {
                 Button("Next Hole"){
                     vm.updateHoleNum(scorecard: currRound, index: holeNo+1)
                 }.buttonStyle(.borderedProminent)
-            } else{
+            }  else{
                 HStack{
                     Button("Previous Hole"){
                         vm.updateHoleNum(scorecard: currRound, index: holeNo-1)

@@ -48,7 +48,7 @@ struct HomePageView: View {
                         Text("DELETE").foregroundColor(.white).frame(height: 55).frame(maxWidth: .infinity).background(Color.blue.cornerRadius(10))
                     })
                     Button(action: {
-                        vm.save()
+                        print(vm.totalPutts(scorecard: vm.scorecards[1]))
                     }, label:{
                         Text("Update").foregroundColor(.white).frame(height: 55).frame(maxWidth: .infinity).background(Color.blue.cornerRadius(10))
                     })

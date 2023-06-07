@@ -118,6 +118,21 @@ class CoreDataViewModel: ObservableObject {
         
     }
     
+    func getSpecialPutts(scorecard: ScorecardModel){
+        let request = NSFetchRequest<PuttModel>(entityName: "PuttModel")
+        let sort = NSSortDescriptor(keyPath: \PuttModel.num, ascending: true)
+        let filter = NSPredicate(format: "hole.scorecard == %@", scorecard )
+        request.sortDescriptors = [sort]
+        request.predicate = filter
+        do{
+            putts = try manager.context.fetch(request)
+
+        } catch let error {
+            print("ERROR FETCHING. \(error.localizedDescription)")
+        }
+        
+    }
+    
 
 
     
@@ -286,18 +301,18 @@ class CoreDataViewModel: ObservableObject {
         getScorecards()
     }
     
-    func updateMiss(putt: PuttModel, update: String){
-        if update == putt.miss{
-            putt.breaking = ""
-        } else {
-            putt.breaking = update
-        }
-        putts.removeAll()
-        manager.save()
-        getPutts()
-        
-    }
-    
+//    func updateMiss(putt: PuttModel, update: String){
+//        if update == putt.miss{
+//            putt.breaking = ""
+//        } else {
+//            putt.breaking = update
+//        }
+//        putts.removeAll()
+//        manager.save()
+//        getPutts()
+//        
+//    }
+//    
     func updateScorecard(index: Int, newInd: Int){
         let existingScorecard = scorecards[index]
         existingScorecard.currHole = Int16(newInd)
@@ -312,6 +327,73 @@ class CoreDataViewModel: ObservableObject {
         save()
     }
     
+    func deleteSpecScorecard(at offsets: IndexSet){
+        for offset in offsets{
+            let scorecard = scorecards[offset]
+            manager.context.delete(scorecard)
+        }
+        save()
+        
+        
+    }
+    
+    
+    
+    
+    
+    
+    // STATS GETTERS
+    
+    func totalScore(scorecard: ScorecardModel) -> Int16 {
+        let filter = scorecard.holes?.allObjects as? [HoleModel]
+        let sum =  filter!.reduce(0){$0 + $1.score}
+        return sum
+    }
+    
+    func totalPar(scorecard: ScorecardModel) -> Int16 {
+        let filter = scorecard.holes?.allObjects as? [HoleModel]
+        let par =  filter!.reduce(0){$0 + $1.par}
+        return par
+    }
+    
+    func totalPutts(scorecard: ScorecardModel) -> Int {
+        let filter = scorecard.holes?.allObjects as? [HoleModel]
+        let numPutts =  filter!.reduce(0){$0 + $1.putts!.count}
+        return numPutts
+    }
+    
+    func puttResults() -> [Int] {
+        let missLeft = putts.reduce(0){$0 + ($1.miss ==  "Left" ? 1 : 0)}
+        let missRight = putts.reduce(0){$0 + ($1.miss == "Right" ? 1 : 0)}
+        return [missLeft, missRight]
+    }
+    
+    func breakResults(loc: String) -> [Int] {
+        let misses = putts.reduce(0){$0 + ($1.breaking == loc ? 1 : 0)}
+        return [misses]
+    }
+    
+    func breakMiss(loc: String) -> [Int] {
+        let misses = putts.filter({$0.breaking == loc})
+        let LCount = misses.reduce(0){$0 + ($1.miss == "Left" ? 1 : 0)}
+        let RCount = misses.reduce(0){$0 + ($1.miss == "Right" ? 1 : 0)}
+        return [LCount, RCount]
+    }
+
+    
+    func faiwayHits(scorecard: ScorecardModel) -> [Int] {
+        let filter = scorecard.holes?.allObjects as? [HoleModel]
+        
+
+        let left = filter!.reduce(0){$0 + ($1.fairwayHit ==  "L" ? 1 : 0)}
+        let right = filter!.reduce(0){$0 + ($1.fairwayHit ==  "R" ? 1 : 0)}
+        let hit = filter!.reduce(0){$0 + ($1.fairwayHit ==  "H" ? 1 : 0)}
+        return [left, right, hit]
+        
+        
+        
+        
+    }
     
     func save(){
         
