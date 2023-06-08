@@ -11,4 +11,5 @@ class AppState: ObservableObject {
     func popToRoot(){
         path.removeLast(path.count)
     }
+   
 }

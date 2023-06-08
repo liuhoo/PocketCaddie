@@ -327,11 +327,9 @@ class CoreDataViewModel: ObservableObject {
         save()
     }
     
-    func deleteSpecScorecard(at offsets: IndexSet){
-        for offset in offsets{
-            let scorecard = scorecards[offset]
-            manager.context.delete(scorecard)
-        }
+    func deleteSpecScorecard(scorecard: ScorecardModel){
+        
+        manager.context.delete(scorecard)
         save()
         
         

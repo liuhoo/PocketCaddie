@@ -10,12 +10,11 @@ import SwiftUI
 struct RoundCollectionView: View {
     @EnvironmentObject var vm: CoreDataViewModel
     @EnvironmentObject var appState: AppState
+    
     var body: some View {
         ScrollView{
             
-            
-            
-            
+    
                 ForEach(vm.scorecards){ round in
                     NavigationLink (destination: RoundDisplayView(currRound: round)) {
                         ZStack{
@@ -38,8 +37,9 @@ struct RoundCollectionView: View {
 
 struct RoundDisplayView: View{
     @EnvironmentObject var vm: CoreDataViewModel
+    @Environment(\.dismiss) private var dismiss
     let currRound: ScorecardModel
-    
+    @State private var showAlert = false
     var body: some View {
         VStack{
             ScrollView(.vertical){
@@ -55,6 +55,12 @@ struct RoundDisplayView: View{
                     vm.collectPutts(hole: vm.holes[0])
                 })
                 
+                Button("Greeting"){
+                    self.showAlert = true
+                    dismiss()
+                    
+                }
+               
                 
                 LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())],
                           alignment: .center, spacing: 10){
@@ -84,6 +90,15 @@ struct RoundDisplayView: View{
             }.padding(.all).frame(maxWidth: .infinity, maxHeight: .infinity)
             
             
+        }.alert(isPresented: $showAlert) {
+            Alert(title: Text("Confirm Deletion"),
+                message: Text("Are you sure you want to delete xxx?"),
+                primaryButton: .destructive(Text("Delete")) {
+                vm.deleteSpecScorecard(scorecard: currRound)
+                
+                
+                },
+                secondaryButton: .cancel())
         }
         
         
