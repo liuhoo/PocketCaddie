@@ -55,11 +55,7 @@ struct RoundDisplayView: View{
                     vm.collectPutts(hole: vm.holes[0])
                 })
                 
-                Button("Greeting"){
-                    self.showAlert = true
-                    dismiss()
-                    
-                }
+                
                
                 
                 LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())],
@@ -86,13 +82,17 @@ struct RoundDisplayView: View{
                     AdvPuttAnalysisView(currRound: currRound, breakDir: "Left-Right")
                     AdvPuttAnalysisView(currRound: currRound , breakDir: "Right-Left")
                 }
-                
+                Button("Delete Round", role:.destructive){
+                    self.showAlert = true
+                    dismiss()
+                    
+                }.buttonStyle(.borderedProminent)
             }.padding(.all).frame(maxWidth: .infinity, maxHeight: .infinity)
             
             
         }.alert(isPresented: $showAlert) {
             Alert(title: Text("Confirm Deletion"),
-                message: Text("Are you sure you want to delete xxx?"),
+                  message: Text("Are you sure you want to delete \(currRound.descrip ?? "")?"),
                 primaryButton: .destructive(Text("Delete")) {
                 vm.deleteSpecScorecard(scorecard: currRound)
                 

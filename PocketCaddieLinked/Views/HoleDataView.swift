@@ -22,7 +22,7 @@ struct CollectDataView: View {
 
                 LazyVGrid(columns: [GridItem(),GridItem(),GridItem()]){
                     ForEach(vm.holes) { i in
-                        HoleSelectView(HoleNumber: Int(i.holeNo), change: holeNo)
+                        HoleSelectView(HoleNumber: Int(i.holeNo), change: holeNo, round: currRound)
                     }
                 }.padding().cornerRadius(20).overlay(RoundedRectangle(cornerRadius: 10).inset(by: -10).strokeBorder(lineWidth: 1 ).padding(.all))
                         
@@ -293,6 +293,7 @@ struct HoleSelectView: View {
     var HoleNumber: Int
     var num: Int = 0
     var change: Int
+    var round: ScorecardModel
     var body: some View {
         ZStack{
             if change == HoleNumber {
@@ -301,7 +302,7 @@ struct HoleSelectView: View {
                 RoundedRectangle(cornerRadius: 10).stroke()
             }
             Button{
-                vm.updateScorecard(index: 0 , newInd: HoleNumber)
+                vm.updateScorecard(round: round , newInd: HoleNumber)
                 vm.getSpecPutts(hole:vm.holes[HoleNumber])
             }label: {Text("\(HoleNumber+1)").font(.body)}
         }.padding(.horizontal)
