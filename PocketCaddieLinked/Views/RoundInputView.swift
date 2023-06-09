@@ -53,14 +53,17 @@ struct InfoView:  View{
                         desc = ""
                         id = ""
                         advancedPutting = false
+                        speed = 9
                     }
                 }
             }
             
-            NavigationLink(destination: CollectDataView(currRound: vm.scorecards[0])){BeginRoundView()}.navigationTitle("New Round").simultaneousGesture(TapGesture().onEnded{
+            NavigationLink(destination: CollectDataView(currRound: vm.scorecards[0])){BeginRoundView()}.navigationTitle("Customize Round").simultaneousGesture(TapGesture().onEnded{
                             vm.addScorecard(name: id, numHoles: Int16(speed), advPutt: advancedPutting)
                             vm.getSpecHoles(scorecard: vm.scorecards[0])
                             vm.collectPutts(hole: vm.holes[0])
+                
+            // CREATE ROUND IN THE MAIN PAGE AND THEN UPDATE ROUND IN THE INPUT PAGE
                         })
             
         }

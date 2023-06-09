@@ -382,15 +382,24 @@ class CoreDataViewModel: ObservableObject {
     func faiwayHits(scorecard: ScorecardModel) -> [Int] {
         let filter = scorecard.holes?.allObjects as? [HoleModel]
         
-
         let left = filter!.reduce(0){$0 + ($1.fairwayHit ==  "L" ? 1 : 0)}
         let right = filter!.reduce(0){$0 + ($1.fairwayHit ==  "R" ? 1 : 0)}
         let hit = filter!.reduce(0){$0 + ($1.fairwayHit ==  "H" ? 1 : 0)}
         return [left, right, hit]
-        
-        
-        
-        
+    }
+    
+    func greenHits(scorecard: ScorecardModel) -> [Int] {
+        let filter = scorecard.holes?.allObjects as? [HoleModel]
+        let miss = filter!.reduce(0){$0 + ($1.greenHit ==  "N" ? 1 : 0)}
+        let hit = filter!.reduce(0){$0 + ($1.greenHit ==  "Y" ? 1 : 0)}
+        return [miss, hit]
+    }
+    
+    func upDownCount(scorecard: ScorecardModel) -> [Int] {
+        let filter = scorecard.holes?.allObjects as? [HoleModel]
+        let miss = filter!.reduce(0){$0 + ($1.upDown ==  "N" ? 1 : 0)}
+        let hit = filter!.reduce(0){$0 + ($1.upDown ==  "Y" ? 1 : 0)}
+        return [miss, hit]
     }
     
     func save(){

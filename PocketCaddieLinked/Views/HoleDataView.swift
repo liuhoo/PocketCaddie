@@ -295,17 +295,20 @@ struct HoleSelectView: View {
     var change: Int
     var round: ScorecardModel
     var body: some View {
-        ZStack{
+       
             if change == HoleNumber {
-                RoundedRectangle(cornerRadius: 10)
+                Button{
+                    vm.updateScorecard(round: round , newInd: HoleNumber)
+                    vm.getSpecPutts(hole:vm.holes[HoleNumber])
+                }label: {Text("\(HoleNumber+1)").font(.body) .frame(maxWidth: UIScreen.main.bounds.size.width/4)}.buttonStyle(.borderedProminent)
             } else{
-                RoundedRectangle(cornerRadius: 10).stroke()
+                Button{
+                    vm.updateScorecard(round: round , newInd: HoleNumber)
+                    vm.getSpecPutts(hole:vm.holes[HoleNumber])
+                }label: {Text("\(HoleNumber+1)").font(.body).frame(maxWidth: UIScreen.main.bounds.size.width/4)}.buttonStyle(.bordered)
             }
-            Button{
-                vm.updateScorecard(round: round , newInd: HoleNumber)
-                vm.getSpecPutts(hole:vm.holes[HoleNumber])
-            }label: {Text("\(HoleNumber+1)").font(.body)}
-        }.padding(.horizontal)
+            
+       
     }
 }
 
