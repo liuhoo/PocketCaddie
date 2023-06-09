@@ -298,12 +298,12 @@ struct HoleSelectView: View {
        
             if change == HoleNumber {
                 Button{
-                    vm.updateScorecard(round: round , newInd: HoleNumber)
+                    vm.updateScorecardRound(round: round , newInd: HoleNumber)
                     vm.getSpecPutts(hole:vm.holes[HoleNumber])
                 }label: {Text("\(HoleNumber+1)").font(.body) .frame(maxWidth: UIScreen.main.bounds.size.width/4)}.buttonStyle(.borderedProminent)
             } else{
                 Button{
-                    vm.updateScorecard(round: round , newInd: HoleNumber)
+                    vm.updateScorecardRound(round: round , newInd: HoleNumber)
                     vm.getSpecPutts(hole:vm.holes[HoleNumber])
                 }label: {Text("\(HoleNumber+1)").font(.body).frame(maxWidth: UIScreen.main.bounds.size.width/4)}.buttonStyle(.bordered)
             }

@@ -159,20 +159,30 @@ class CoreDataViewModel: ObservableObject {
     
     
     
-    func addScorecard(name: String, numHoles: Int16, advPutt: Bool){
+    func addScorecard(){
         let newScorecard = ScorecardModel(context: manager.context)
         newScorecard.currHole = 0
-        newScorecard.detail = ""
-        newScorecard.descrip = name
-        newScorecard.totalScore = 10
         newScorecard.date = Date.now
         newScorecard.id = UUID()
-        newScorecard.advPutt = advPutt
         save()
         
+//        for i in 0..<numHoles {
+//            addHole(index: i, scorecard: newScorecard)
+//        }
+    }
+    
+    func addScorecardHoles(scorecard: ScorecardModel, numHoles: Int){
         for i in 0..<numHoles {
-            addHole(index: i, scorecard: newScorecard)
+            addHole(index: Int16(i), scorecard: scorecard)
         }
+    }
+    
+    func updateScorecard(scorecard: ScorecardModel, name: String, numHoles: Int16, advPutt: Bool){
+        scorecard.descrip = name
+        scorecard.advPutt = advPutt
+        save()
+        addScorecardHoles(scorecard: scorecard, numHoles: Int(numHoles))
+
     }
     
     func addHole(index: Int16, scorecard: ScorecardModel){
@@ -313,7 +323,7 @@ class CoreDataViewModel: ObservableObject {
 //        
 //    }
 //    
-    func updateScorecard(round: ScorecardModel, newInd: Int){
+    func updateScorecardRound(round: ScorecardModel, newInd: Int){
         
         round.currHole = Int16(newInd)
         scorecards.removeAll()

@@ -14,7 +14,10 @@ struct HomePageView: View {
         VStack {
             NavigationLink(value:"intermediateView"){
                 NewRoundView()
-            }
+            }.simultaneousGesture(TapGesture().onEnded{
+                vm.addScorecard()
+                
+            })
             NavigationLink(value:"statisticView"){
                 StatisticView()
             }
