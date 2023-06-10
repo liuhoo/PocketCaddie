@@ -52,11 +52,77 @@ struct RoundDisplayView: View{
                 
                
                 
-                LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())],
+                LazyVGrid(columns: [GridItem(.flexible(minimum: 50)), GridItem(), GridItem(),GridItem(), GridItem(), GridItem(),GridItem(), GridItem(), GridItem(), GridItem()],
                           alignment: .center, spacing: 10){
-                    
-                    ForEach(vm.holes) { hole in
+                    ZStack{
+                        
+                        
+                        VStack{
+                           
+                            HStack{
+            //                    Text("  Hole:")
+            //                    Spacer()
+                                
+                                Text("Hole  ")
+                                Spacer()
+                               
+                            }
+                            HStack{
+            //                    Text("  Score:")
+            //                    Spacer()
+                                
+                                Text("Score ")
+                                Spacer()
+                            }
+                            HStack{
+            //
+                                Text("Par ")
+                                Spacer()
+                                
+                            }
+                            
+                            
+                        }
+                    }.font(.system(size: 15))
+                    ForEach(vm.holes.prefix(9)) { hole in
                         HoleDisplayView(currHole: hole)
+                    }
+                    
+                    if vm.holes.count > 9 {
+                        ZStack{
+                            
+                            
+                            VStack{
+                               
+                                HStack{
+                //                    Text("  Hole:")
+                //                    Spacer()
+                                    
+                                    Text("Hole  ")
+                                    Spacer()
+                                   
+                                }
+                                HStack{
+                //                    Text("  Score:")
+                //                    Spacer()
+                                    
+                                    Text("Score ")
+                                    Spacer()
+                                }
+                                HStack{
+                //
+                                    Text("Par ")
+                                    Spacer()
+                                    
+                                }
+                                
+                                
+                            }
+                        }.font(.system(size: 15))
+                        ForEach(vm.holes.suffix(vm.holes.count-9)) { hole in
+                            HoleDisplayView(currHole: hole)
+                        }
+                        
                     }
                     
                 }.navigationTitle("\(currRound.descrip ?? "")")
@@ -84,20 +150,12 @@ struct RoundDisplayView: View{
                     AdvPuttAnalysisView(currRound: currRound, breakDir: "Straight")
                     AdvPuttAnalysisView(currRound: currRound, breakDir: "Left-Right")
                     AdvPuttAnalysisView(currRound: currRound , breakDir: "Right-Left")
+                    HighLowView(currRound: currRound)
                 }
                 
-                StatView(currRound: currRound).padding(.bottom)
-//                HStack{
-//
-//                    Text("  Stats")
-//                        .font(.title)
-//                        .fontWeight(.bold).frame(alignment: .leading)
-//                    Spacer()
-//                }
+                StatView(currRound: currRound)
                 
-                
-                
-                
+            
                 Button("Delete Round", role:.destructive){
                     self.showAlert = true
                     dismiss()
@@ -355,6 +413,41 @@ struct AdvPuttAnalysisView: View{
     }
 }
 
+struct HighLowView: View{
+    @EnvironmentObject var vm: CoreDataViewModel
+    let currRound: ScorecardModel
+    var body: some View {
+
+        let RL = vm.breakMiss(loc: "Right-Left")
+        let LR = vm.breakMiss(loc: "Left-Right")
+        
+            VStack{
+                HStack{
+                    ZStack{
+                        RoundedRectangle(cornerRadius: 10).strokeBorder(lineWidth: 1)
+                        VStack{
+                            Text("\(RL[0]+LR[1])").font(.title)
+                            Text("# Putts Miss Low").font(.body)
+                        }
+                    }
+                    ZStack{
+                        RoundedRectangle(cornerRadius: 10).strokeBorder(lineWidth: 1)
+                        VStack{
+                            Text("\(RL[1]+LR[0])").font(.title)
+                            Text("# Putts Miss High").font(.body)
+                        }
+                    }
+                    
+                    
+                }
+            }.padding([.horizontal])
+        
+
+
+
+    }
+}
+
 struct HoleDisplayView: View{
     @EnvironmentObject var vm: CoreDataViewModel
     let currHole: HoleModel
@@ -362,41 +455,43 @@ struct HoleDisplayView: View{
         
         
         ZStack{
-            RoundedRectangle(cornerRadius: 10).strokeBorder(lineWidth: 3)
+            RoundedRectangle(cornerRadius: 10).stroke()
             
             VStack{
                 Spacer()
                 HStack{
-                    Text("  Hole:")
-                    Spacer()
+//                    Text("  Hole:")
+//                    Spacer()
+                    
                     Text("\(currHole.holeNo+1)  ")
+                   
                 }
                 
 
-                RoundedRectangle(cornerRadius: 0)
-                    .fill().frame(height: 1)
+               
                 
 
                 HStack{
-                    Text("  Score:")
-                    Spacer()
+//                    Text("  Score:")
+//                    Spacer()
+                    
                     Text("\(currHole.score)  ")
+                   
                 }
                
 
-                RoundedRectangle(cornerRadius: 0)
-                    .fill().frame(height: 1)
+             
                 
 
                 HStack{
-                    Text("  Par:")
-                    Spacer()
+//
                     Text("\(currHole.par)  ")
+                    
                 }
                 
                 Spacer()
             }
-        }
+        }.font(.system(size: 15))
 //        .padding(.horizontal)
         
         

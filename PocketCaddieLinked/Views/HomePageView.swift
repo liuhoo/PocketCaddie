@@ -22,8 +22,7 @@ struct HomePageView: View {
                 StatisticView()
             }
             
-            ScrollView{
-                VStack(spacing: 20){
+            
                     
 //                    Button(action: {
 //                        vm.addScorecard(name: "TEST", numHoles: 5, advPutt: true)
@@ -44,43 +43,44 @@ struct HomePageView: View {
 //                    }, label:{
 //                        Text("Add Putt").foregroundColor(.white).frame(height: 55).frame(maxWidth: .infinity).background(Color.blue.cornerRadius(10))
 //                    })
-                    
-                    Button(action: {
-                        vm.deleteScorecard()
-                    }, label:{
-                        Text("DELETE").foregroundColor(.white).frame(height: 55).frame(maxWidth: .infinity).background(Color.blue.cornerRadius(10))
-                    })
-                    Button(action: {
-                        print(vm.totalPutts(scorecard: vm.scorecards[1]))
-                    }, label:{
-                        Text("Update").foregroundColor(.white).frame(height: 55).frame(maxWidth: .infinity).background(Color.blue.cornerRadius(10))
-                    })
-                    
-                    ScrollView(.horizontal, showsIndicators: true, content:{
-                        HStack(alignment: .top){
-                            ForEach(vm.scorecards){ hi in
-                                ScorecardView(entity: hi)
-                                
-                            }
-                        }
-                    })
-                    
-                    ScrollView(.horizontal, showsIndicators: true, content:{
-                        HStack(alignment: .top){
-                            ForEach(vm.holes){ hole in
-                                HoleView(entity: hole)
-                            }
-                        }
-                    })
-                    ScrollView(.horizontal, showsIndicators: true, content:{
-                        HStack(alignment: .top){
-                            ForEach(vm.putts){ putt in
-                                PuttView(entity: putt)
-                            }
-                        }
-                    })
-                }.padding()
-            }
+//ScrollView{
+//    VStack(spacing: 20){
+//Button(action: {
+//    vm.deleteScorecard()
+//}, label:{
+//    Text("DELETE").foregroundColor(.white).frame(height: 55).frame(maxWidth: .infinity).background(Color.blue.cornerRadius(10))
+//})
+//Button(action: {
+//    print(vm.totalPutts(scorecard: vm.scorecards[1]))
+//}, label:{
+//    Text("Update").foregroundColor(.white).frame(height: 55).frame(maxWidth: .infinity).background(Color.blue.cornerRadius(10))
+//})
+//
+//ScrollView(.horizontal, showsIndicators: true, content:{
+//    HStack(alignment: .top){
+//        ForEach(vm.scorecards){ hi in
+//            ScorecardView(entity: hi)
+//
+//        }
+//    }
+//})
+//
+//ScrollView(.horizontal, showsIndicators: true, content:{
+//    HStack(alignment: .top){
+//        ForEach(vm.holes){ hole in
+//            HoleView(entity: hole)
+//        }
+//    }
+//})
+//ScrollView(.horizontal, showsIndicators: true, content:{
+//    HStack(alignment: .top){
+//        ForEach(vm.putts){ putt in
+//            PuttView(entity: putt)
+//        }
+//    }
+//})
+//}.padding()
+//}
         }.navigationDestination(for: String.self){ viewItem in
             selectView(item: viewItem)
             
