@@ -53,7 +53,11 @@ struct CollectDataView: View {
                 FairwayButton(hole: currHole)
                 GreenHitButton(hole: currHole)
                 UpDownButton(hole: currHole)
-                
+                HStack{
+                    
+                    Text("Putts On Hole")
+                    Spacer()
+                }
                 ForEach(vm.putts) { putt in
 //                    PuttButton(putt: putt, adv: currRound.advPutt)
             
@@ -121,7 +125,7 @@ struct PuttButton: View {
     @State var missInput: String = "Miss?"
     var body: some View {
         HStack{
-            Text("Putt #\(putt.num+1)").font(.body)
+            Text("#\(putt.num+1)").font(.body)
             Spacer()
 
             if adv {
@@ -129,10 +133,13 @@ struct PuttButton: View {
                     ForEach(breaking, id: \.self) {
                         Text($0).font(.body)
                     }
-                }
+                }.padding(.trailing)
                 .pickerStyle(.menu).labelsHidden().onChange(of: breakInput, perform:{ (value) in
                     vm.updatePuttBreak(putt: putt, update:value)
-                })
+                }).overlay(
+                    RoundedRectangle(cornerRadius: 5)
+                        .strokeBorder(.blue, lineWidth: 2)
+                )
             }
                 
             
@@ -141,10 +148,13 @@ struct PuttButton: View {
                 ForEach(miss, id: \.self) {
                     Text($0).font(.body)
                 }
-            }
+            }.padding(.trailing)
             .pickerStyle(.menu).labelsHidden().onChange(of: missInput, perform:{ (value) in
                 vm.updatePuttMiss(putt: putt, update:value)
-            })
+            }).overlay(
+                RoundedRectangle(cornerRadius: 5)
+                    .strokeBorder(.blue, lineWidth: 2)
+            )
             
             
             

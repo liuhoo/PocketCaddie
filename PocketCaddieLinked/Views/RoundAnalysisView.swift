@@ -52,10 +52,10 @@ struct RoundDisplayView: View{
                 
                
                 
-                LazyVGrid(columns: [GridItem(.flexible(minimum: 50)), GridItem(), GridItem(),GridItem(), GridItem(), GridItem(),GridItem(), GridItem(), GridItem(), GridItem()],
-                          alignment: .center, spacing: 10){
+                LazyVGrid(columns: [GridItem(.flexible(minimum: 55), spacing: -2), GridItem(.flexible(), spacing: -2), GridItem(.flexible(), spacing: -2),GridItem(.flexible(), spacing: -2), GridItem(.flexible(), spacing: -2), GridItem(.flexible(), spacing: -2),GridItem(.flexible(), spacing: -2), GridItem(.flexible(), spacing: -2), GridItem(.flexible(), spacing: -2), GridItem(.flexible(), spacing: -2)],
+                          alignment: .center, spacing: 4){
                     ZStack{
-                        
+                        Rectangle().strokeBorder(lineWidth: 2)
                         
                         VStack{
                            
@@ -63,27 +63,29 @@ struct RoundDisplayView: View{
             //                    Text("  Hole:")
             //                    Spacer()
                                 
-                                Text("Hole  ")
+                                Text(" Hole")
                                 Spacer()
                                
                             }
+                            Divider().frame(height: 1).background(Color.black)
                             HStack{
             //                    Text("  Score:")
             //                    Spacer()
                                 
-                                Text("Score ")
+                                Text(" Score")
                                 Spacer()
                             }
+                            Divider().frame(height: 1).background(Color.black)
                             HStack{
             //
-                                Text("Par ")
+                                Text(" Par")
                                 Spacer()
                                 
                             }
                             
                             
                         }
-                    }.font(.system(size: 15))
+                    }.font(.system(size: 16))
                     ForEach(vm.holes.prefix(9)) { hole in
                         HoleDisplayView(currHole: hole)
                     }
@@ -91,34 +93,36 @@ struct RoundDisplayView: View{
                     if vm.holes.count > 9 {
                         ZStack{
                             
-                            
+                            Rectangle().strokeBorder(lineWidth: 2)
                             VStack{
                                
                                 HStack{
                 //                    Text("  Hole:")
                 //                    Spacer()
                                     
-                                    Text("Hole  ")
+                                    Text(" Hole")
                                     Spacer()
                                    
                                 }
+                                Divider().frame(height: 1).background(Color.black)
                                 HStack{
                 //                    Text("  Score:")
                 //                    Spacer()
                                     
-                                    Text("Score ")
+                                    Text(" Score")
                                     Spacer()
                                 }
+                                Divider().frame(height: 1).background(Color.black)
                                 HStack{
                 //
-                                    Text("Par ")
+                                    Text(" Par")
                                     Spacer()
                                     
                                 }
                                 
                                 
                             }
-                        }.font(.system(size: 15))
+                        }.font(.system(size: 16))
                         ForEach(vm.holes.suffix(vm.holes.count-9)) { hole in
                             HoleDisplayView(currHole: hole)
                         }
@@ -359,7 +363,7 @@ struct PuttAnalysisView: View{
                         Spacer()
 
                         Text("Miss L: \(values[0])")
-                        Spacer()
+                        
 
                         Spacer()
 
@@ -455,43 +459,44 @@ struct HoleDisplayView: View{
         
         
         ZStack{
-            RoundedRectangle(cornerRadius: 10).stroke()
+            Rectangle().strokeBorder(lineWidth: 2)
             
             VStack{
                 Spacer()
                 HStack{
 //                    Text("  Hole:")
 //                    Spacer()
-                    
-                    Text("\(currHole.holeNo+1)  ")
-                   
+                    Spacer()
+                    Text("\(currHole.holeNo+1)")
+                    Spacer()
                 }
                 
 
-               
+                Divider().frame(height: 1).background(Color.black)
                 
 
                 HStack{
 //                    Text("  Score:")
 //                    Spacer()
-                    
-                    Text("\(currHole.score)  ")
-                   
+                    Spacer()
+                    Text("\(currHole.score)")
+                    Spacer()
                 }
                
 
-             
+                Divider().frame(height: 1).background(Color.black)
                 
 
                 HStack{
-//
-                    Text("\(currHole.par)  ")
-                    
+//Spacer()
+                    Spacer()
+                    Text("\(currHole.par)")
+                    Spacer()
                 }
                 
                 Spacer()
             }
-        }.font(.system(size: 15))
+        }.font(.system(size: 16))
 //        .padding(.horizontal)
         
         

@@ -15,12 +15,16 @@ struct HomePageView: View {
             NavigationLink(value:"intermediateView"){
                 NewRoundView()
             }.simultaneousGesture(TapGesture().onEnded{
+                vm.cleanScorecard()
                 vm.addScorecard()
                 
             })
             NavigationLink(value:"statisticView"){
                 StatisticView()
-            }
+            }.simultaneousGesture(TapGesture().onEnded{
+                vm.cleanScorecard()
+                
+            })
             
             
                     

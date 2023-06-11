@@ -164,6 +164,7 @@ class CoreDataViewModel: ObservableObject {
         newScorecard.currHole = 0
         newScorecard.date = Date.now
         newScorecard.id = UUID()
+        newScorecard.descrip = "_UNNAMED_"
         save()
         
 //        for i in 0..<numHoles {
@@ -331,10 +332,15 @@ class CoreDataViewModel: ObservableObject {
         getScorecards()
     }
     
-    func deleteScorecard(){
-        let scorecard = scorecards[0]
-        manager.context.delete(scorecard)
-        save()
+    
+   
+    
+    func cleanScorecard(){
+        
+        if let item = scorecards.first(where:{$0.descrip == "_UNNAMED_"}){
+            deleteSpecScorecard(scorecard: item)
+        }
+        
     }
     
     func deleteSpecScorecard(scorecard: ScorecardModel){
@@ -412,6 +418,7 @@ class CoreDataViewModel: ObservableObject {
         return [miss, hit]
     }
     
+   
     func save(){
         
         scorecards.removeAll()
