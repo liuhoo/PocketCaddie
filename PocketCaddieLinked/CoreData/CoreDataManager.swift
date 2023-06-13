@@ -179,10 +179,14 @@ class CoreDataViewModel: ObservableObject {
     }
     
     func updateScorecard(scorecard: ScorecardModel, name: String, numHoles: Int16, advPutt: Bool){
+        if scorecard.descrip == "_UNNAMED_"{
+            addScorecardHoles(scorecard: scorecard, numHoles: Int(numHoles))
+        }
+        
         scorecard.descrip = name
         scorecard.advPutt = advPutt
         save()
-        addScorecardHoles(scorecard: scorecard, numHoles: Int(numHoles))
+        
 
     }
     
