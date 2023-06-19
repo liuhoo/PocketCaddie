@@ -42,6 +42,7 @@ struct RoundCollectionView: View {
 struct RoundDisplayView: View{
     @EnvironmentObject var vm: CoreDataViewModel
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.colorScheme) var colorScheme
     let currRound: ScorecardModel
     @State private var showAlert = false
     var body: some View {
@@ -67,7 +68,7 @@ struct RoundDisplayView: View{
                                 Spacer()
                                
                             }
-                            Divider().frame(height: 1).background(Color.black)
+                            Divider().frame(height: 1).background(colorScheme == .light ? Color.black : Color.white)
                             HStack{
             //                    Text("  Score:")
             //                    Spacer()
@@ -75,7 +76,7 @@ struct RoundDisplayView: View{
                                 Text(" Score")
                                 Spacer()
                             }
-                            Divider().frame(height: 1).background(Color.black)
+                            Divider().frame(height: 1).background(colorScheme == .light ? Color.black : Color.white)
                             HStack{
             //
                                 Text(" Par")
@@ -454,6 +455,7 @@ struct HighLowView: View{
 
 struct HoleDisplayView: View{
     @EnvironmentObject var vm: CoreDataViewModel
+    @Environment(\.colorScheme) var colorScheme
     let currHole: HoleModel
     var body: some View {
         
@@ -472,7 +474,7 @@ struct HoleDisplayView: View{
                 }
                 
 
-                Divider().frame(height: 1).background(Color.black)
+                Divider().frame(height: 1).background(colorScheme == .light ? Color.black : Color.white)
                 
 
                 HStack{
@@ -484,7 +486,7 @@ struct HoleDisplayView: View{
                 }
                
 
-                Divider().frame(height: 1).background(Color.black)
+                Divider().frame(height: 1).background(colorScheme == .light ? Color.black : Color.white)
                 
 
                 HStack{
