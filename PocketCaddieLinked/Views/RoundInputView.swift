@@ -37,14 +37,14 @@ struct InfoView:  View{
                 
                 Section(header: Text("User Profiles")) {
                     Text(String(format: "Number of Holes: %.0f", speed))
-                        .foregroundColor(isEditing ? .red : .blue)
+//                        .foregroundColor(isEditing ? .red : .blue)
                     Slider(
                         value: $speed,
                         in: 1...18,
-                        step: 1,
-                        onEditingChanged: { editing in
-                            isEditing = editing
-                        }
+                        step: 1
+//                        ,onEditingChanged: { editing in
+//                            isEditing = editing
+//                        }
                     )
                 }
                 
