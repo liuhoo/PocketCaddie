@@ -37,6 +37,7 @@ struct CollectDataView: View {
                 HStack{
                     Stepper{Text("Par: \(currHole.par)")} onIncrement: {
                         vm.incrementPar(scorecard: currRound, index: holeNo)
+                        if currHole.par > 5 { vm.decrementPar(scorecard: currRound, index: holeNo)}
                     } onDecrement: {
                         vm.decrementPar(scorecard: currRound, index: holeNo)
                         if currHole.par < 0 { vm.incrementPar(scorecard: currRound, index: holeNo)}
