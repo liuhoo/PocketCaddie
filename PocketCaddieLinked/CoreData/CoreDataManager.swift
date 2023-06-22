@@ -422,6 +422,14 @@ class CoreDataViewModel: ObservableObject {
         return [miss, hit]
     }
     
+    func puttCount(scorecard: ScorecardModel) -> [Int] {
+        let filter = scorecard.holes?.allObjects as? [HoleModel]
+        let one = filter!.reduce(0){$0 + ($1.putts?.count ==  1 ? 1 : 0)}
+        let two = filter!.reduce(0){$0 + ($1.putts?.count ==  2 ? 1 : 0)}
+        let three = filter!.reduce(0){$0 + ($1.putts?.count ?? 0 >=  3 ? 1 : 0)}
+        return [one, two, three]
+    }
+    
    
     func save(){
         

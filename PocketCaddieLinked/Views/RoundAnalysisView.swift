@@ -157,7 +157,7 @@ struct RoundDisplayView: View{
                     AdvPuttAnalysisView(currRound: currRound , breakDir: "Right-Left")
                     HighLowView(currRound: currRound)
                 }
-                
+                PuttCountView(currRound: currRound)
                 StatView(currRound: currRound)
                 
             
@@ -166,6 +166,9 @@ struct RoundDisplayView: View{
                     dismiss()
                     
                 }.buttonStyle(.borderedProminent)
+                
+                
+                
             }.padding(.all).frame(maxWidth: .infinity, maxHeight: .infinity)
             
             
@@ -182,6 +185,67 @@ struct RoundDisplayView: View{
         
         
     }
+}
+
+struct PuttCountView: View{
+    @EnvironmentObject var vm: CoreDataViewModel
+    let currRound: ScorecardModel
+    var body: some View {
+        let stat = vm.puttCount(scorecard: currRound)
+        VStack{
+                
+            LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())],
+                      alignment: .center, spacing: 10){
+                onePutt(num: stat[0])
+                twoPutt(num: stat[1])
+                threePuttPlus(num: stat[2])
+            }
+                
+//
+        }
+    }
+    struct onePutt : View{
+        let num: Int
+        var body: some View {
+            
+            ZStack{
+                RoundedRectangle(cornerRadius: 10).strokeBorder(lineWidth: 1)
+                VStack{
+                    Text("\(String(format: "%d", num))").font(.title)
+                    Text("# One Putts").font(.body)
+                }
+            }
+           
+        }
+    }
+    
+    struct twoPutt : View{
+        let num: Int
+        var body: some View {
+            
+            ZStack{
+                RoundedRectangle(cornerRadius: 10).strokeBorder(lineWidth: 1)
+                VStack{
+                    Text("\(String(format: "%d", num))").font(.title)
+                    Text("# Two Putts").font(.body)
+                }
+            }
+            
+        }
+    }
+    struct threePuttPlus : View{
+        let num: Int
+        var body: some View {
+            ZStack{
+                RoundedRectangle(cornerRadius: 10).strokeBorder(lineWidth: 1)
+                VStack{
+                    Text("\(String(format: "%d", num))").font(.title)
+                    Text("# Three Putts+").font(.body)
+                }
+            }
+        }
+    }
+    
 }
 
 struct StatView: View{
