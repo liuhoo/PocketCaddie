@@ -45,14 +45,14 @@ struct headingView: View {
         
         HStack {
             Text("Hole ")
-                .foregroundColor(Color.white).font(.system(size: 18, weight: .regular, design: .default))
+                .foregroundColor(Color.white).font(.system(size: 15, weight: .regular, design: .default))
             Spacer()
             HStack{
                 if (side) {
                     ForEach(vm.holes.prefix(9)) { hole in
                         Spacer()
                         Text("\(hole.holeNo+1)")
-                            .font(.system(size: 18, weight: .regular, design: .default))
+                            .font(.system(size: 15, weight: .regular, design: .default))
                         //.padding(.trailing)
                             .foregroundColor(Color.white)
                         Spacer()
@@ -63,7 +63,7 @@ struct headingView: View {
                     ForEach(vm.holes.suffix(vm.holes.count-9)) { hole in
                         Spacer()
                         Text("\(hole.holeNo+1)")
-                            .font(.system(size: 18, weight: .regular, design: .default))
+                            .font(.system(size: 15, weight: .regular, design: .default))
                         //.padding(.trailing)
                             .foregroundColor(Color.white)
                         Spacer()
@@ -86,14 +86,14 @@ struct parView: View {
         
         HStack {
             Text("Par    ")
-                .foregroundColor(Color.white).font(.system(size: 18, weight: .regular, design: .default))
+                .foregroundColor(Color.white).font(.system(size: 15, weight: .regular, design: .default))
             Spacer()
             HStack{
                 if(side){
                     ForEach(vm.holes.prefix(9)) { hole in
                         Spacer()
                         Text("\(hole.par)")
-                            .font(.system(size: 18, weight: .regular, design: .default))
+                            .font(.system(size: 15, weight: .regular, design: .default))
                             .foregroundColor(Color.gray)
                         Spacer()
                     }
@@ -102,7 +102,7 @@ struct parView: View {
                     ForEach(vm.holes.suffix(vm.holes.count-9)) { hole in
                         Spacer()
                         Text("\(hole.par)")
-                            .font(.system(size: 18, weight: .regular, design: .default))
+                            .font(.system(size: 15, weight: .regular, design: .default))
                             .foregroundColor(Color.gray)
                         Spacer()
                     }
@@ -123,14 +123,14 @@ struct scoreView: View {
         
         HStack {
             Text("Score")
-                .foregroundColor(Color.white).font(.system(size: 18, weight: .regular, design: .default))
+                .foregroundColor(Color.white).font(.system(size: 15, weight: .regular, design: .default))
             Spacer()
             HStack{
                 if (side) {
                     ForEach(vm.holes.prefix(9)) { hole in
                         Spacer()
                         Text("\(hole.score)")
-                            .font(.system(size: 18, weight: .regular, design: .default))
+                            .font(.system(size: 15, weight: .regular, design: .default))
                             .foregroundColor(Color.gray)
                         Spacer()
                     }
@@ -138,7 +138,7 @@ struct scoreView: View {
                     ForEach(vm.holes.suffix(vm.holes.count-9)) { hole in
                         Spacer()
                         Text("\(hole.score)")
-                            .font(.system(size: 18, weight: .regular, design: .default))
+                            .font(.system(size: 15, weight: .regular, design: .default))
                             .foregroundColor(Color.gray)
                         Spacer()
                     }
@@ -159,27 +159,47 @@ struct roundView: View {
     var body: some View {
         VStack {
             ZStack{
+                RoundedRectangle(
+                cornerRadius: 20,
+                style: .continuous
+                ).fill(Color("Text"))
                 RoundedRectangle(cornerRadius:  20).strokeBorder(.blue, lineWidth: 4)
                 VStack{
                     headingView(side: true)
                         .padding(.top)
-                    parView(side: true).padding(.top)
-                    scoreView(side: true).padding([.top, .bottom])
+                    Rectangle().fill(Color.blue).frame(height: 4, alignment: .center)
+                    parView(side: true)
+                    scoreView(side: true).padding([.bottom], 15).padding([.top], 5)
                 }
             }.padding(.all)
             
             
+           
+            
+            
+            
             if (vm.holes.count  > 9){
-                headingView(side: false)
-                    .padding(.top)
-                parView(side: false).padding(.top)
-                scoreView(side: false).padding(.top)
+                
+                ZStack{
+                    RoundedRectangle(
+                    cornerRadius: 20,
+                    style: .continuous
+                    ).fill(Color("Text"))
+                    RoundedRectangle(cornerRadius:  20).strokeBorder(.blue, lineWidth: 4)
+                    VStack{
+                        headingView(side: false)
+                            .padding(.top)
+                        Rectangle().fill(Color.blue).frame(height: 4, alignment: .center)
+                        parView(side: false)
+                        scoreView(side: false).padding([.bottom], 15).padding([.top], 5)
+                        
+                    }
+                }.padding(.all)
+                
                 
             }
            
-        }
-        .background(Color.black)
-        .roundedCorner(20, corners: [.topLeft, .topRight, .bottomRight])
+        }.background(Color("Background")).roundedCorner(20, corners: [.topLeft, .topRight, .bottomRight])
         
     }
 }
@@ -196,146 +216,50 @@ struct RoundDisplayView: View{
         VStack(spacing: 0) {
             ScrollView {
                 roundView(currRound: currRound)
-                    .padding(.horizontal)
                 
-                
-            }
+                NavigationLink(destination: CollectDataView(currRound: currRound)){
+                    ZStack{
+                        RoundedRectangle(cornerRadius: 10)
+                        Text("Edit Round").foregroundColor(.white).font(.headline)
+                            .font(.largeTitle).padding(.all)
+
+                    }
+                    .padding(.horizontal)}.simultaneousGesture(TapGesture().onEnded{
+
+                        vm.getSpecHoles(scorecard: currRound)
+                    vm.updateHoleNum(scorecard: currRound, index: 0)
+                    vm.collectPutts(hole: vm.holes[0])
+                })
+                FinalScoreView(currRound: currRound)
+                FairwayAnalysisView(currRound: currRound )
+                PuttAnalysisView(currRound: currRound )
+                if currRound.advPutt{
+                    AdvPuttAnalysisView(currRound: currRound, breakDir: "Straight")
+                    AdvPuttAnalysisView(currRound: currRound, breakDir: "Left-Right")
+                    AdvPuttAnalysisView(currRound: currRound , breakDir: "Right-Left")
+                    HighLowView(currRound: currRound)
+                }
+                PuttCountView(currRound: currRound)
+                StatView(currRound: currRound)
+                Button("Delete Round", role:.destructive){
+                    self.showAlert = true
+                    dismiss()
+
+                }.buttonStyle(.borderedProminent)
+            }.padding(.all).frame(maxWidth: .infinity, maxHeight: .infinity)
+
             
-        }
-//        VStack{
-//            ScrollView(.vertical){
-//
-//
-//
-//                LazyVGrid(columns: [GridItem(.flexible(minimum: 55), spacing: -2), GridItem(.flexible(), spacing: -2), GridItem(.flexible(), spacing: -2),GridItem(.flexible(), spacing: -2), GridItem(.flexible(), spacing: -2), GridItem(.flexible(), spacing: -2),GridItem(.flexible(), spacing: -2), GridItem(.flexible(), spacing: -2), GridItem(.flexible(), spacing: -2), GridItem(.flexible(), spacing: -2)],
-//                          alignment: .center, spacing: 4){
-//                    ZStack{
-//                        Rectangle().strokeBorder(lineWidth: 2)
-//
-//                        VStack{
-//
-//                            HStack{
-//            //                    Text("  Hole:")
-//            //                    Spacer()
-//
-//                                Text(" Hole")
-//                                Spacer()
-//
-//                            }
-//                            Divider().frame(height: 1).background(colorScheme == .light ? Color.black : Color.white)
-//                            HStack{
-//            //                    Text("  Score:")
-//            //                    Spacer()
-//
-//                                Text(" Score")
-//                                Spacer()
-//                            }
-//                            Divider().frame(height: 1).background(colorScheme == .light ? Color.black : Color.white)
-//                            HStack{
-//            //
-//                                Text(" Par")
-//                                Spacer()
-//
-//                            }
-//
-//
-//                        }
-//                    }.font(.system(size: 16))
-//                    ForEach(vm.holes.prefix(9)) { hole in
-//                        HoleDisplayView(currHole: hole)
-//                    }
-//
-//                    if vm.holes.count > 9 {
-//                        ZStack{
-//
-//                            Rectangle().strokeBorder(lineWidth: 2)
-//                            VStack{
-//
-//                                HStack{
-//                //                    Text("  Hole:")
-//                //                    Spacer()
-//
-//                                    Text(" Hole")
-//                                    Spacer()
-//
-//                                }
-//                                Divider().frame(height: 1).background(Color.black)
-//                                HStack{
-//                //                    Text("  Score:")
-//                //                    Spacer()
-//
-//                                    Text(" Score")
-//                                    Spacer()
-//                                }
-//                                Divider().frame(height: 1).background(Color.black)
-//                                HStack{
-//                //
-//                                    Text(" Par")
-//                                    Spacer()
-//
-//                                }
-//
-//
-//                            }
-//                        }.font(.system(size: 16))
-//                        ForEach(vm.holes.suffix(vm.holes.count-9)) { hole in
-//                            HoleDisplayView(currHole: hole)
-//                        }
-//
-//                    }
-//
-//                }.navigationTitle("\(currRound.descrip ?? "")")
-//                NavigationLink(destination: CollectDataView(currRound: currRound)){
-//                    ZStack{
-//                        RoundedRectangle(cornerRadius: 10)
-//                        Text("Edit Round").foregroundColor(.white).font(.headline)
-//                            .font(.largeTitle).padding(.all)
-//
-//                    }
-//                    .padding(.horizontal)}.simultaneousGesture(TapGesture().onEnded{
-//
-//                        vm.getSpecHoles(scorecard: currRound)
-//                    vm.updateHoleNum(scorecard: currRound, index: 0)
-//                    vm.collectPutts(hole: vm.holes[0])
-//                })
-//
-//                FinalScoreView(currRound: currRound)
-//
-//                FairwayAnalysisView(currRound: currRound )
-//
-//
-//                PuttAnalysisView(currRound: currRound )
-//                if currRound.advPutt{
-//                    AdvPuttAnalysisView(currRound: currRound, breakDir: "Straight")
-//                    AdvPuttAnalysisView(currRound: currRound, breakDir: "Left-Right")
-//                    AdvPuttAnalysisView(currRound: currRound , breakDir: "Right-Left")
-//                    HighLowView(currRound: currRound)
-//                }
-//                PuttCountView(currRound: currRound)
-//                StatView(currRound: currRound)
-//
-//
-//                Button("Delete Round", role:.destructive){
-//                    self.showAlert = true
-//                    dismiss()
-//
-//                }.buttonStyle(.borderedProminent)
-//
-//
-//
-//            }.padding(.all).frame(maxWidth: .infinity, maxHeight: .infinity)
-//
-//
-//        }.alert(isPresented: $showAlert) {
-//            Alert(title: Text("Confirm Deletion"),
-//                  message: Text("Are you sure you want to delete \(currRound.descrip ?? "")?"),
-//                primaryButton: .destructive(Text("Delete")) {
-//                vm.deleteSpecScorecard(scorecard: currRound)
-//
-//
-//                },
-//                secondaryButton: .cancel())
-//        }
+        }.alert(isPresented: $showAlert) {
+            Alert(title: Text("Confirm Deletion"),
+                  message: Text("Are you sure you want to delete \(currRound.descrip ?? "")?"),
+                primaryButton: .destructive(Text("Delete")) {
+                vm.deleteSpecScorecard(scorecard: currRound)
+
+
+                },
+                secondaryButton: .cancel())
+        }.navigationTitle("\(currRound.descrip ?? "")")
+        
         
         
     }
