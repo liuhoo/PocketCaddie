@@ -15,8 +15,8 @@ struct CollectDataView: View {
     var currRound: ScorecardModel
     var body: some View {
         
-        var holeNo = Int(currRound.currHole)
-        var currHole = vm.holes[holeNo]
+        let holeNo = Int(currRound.currHole)
+        let currHole = vm.holes[holeNo]
         VStack(alignment: .center, spacing:0){
             ZStack{
 

@@ -17,6 +17,7 @@
 		5F6046332A2D19EF0065BB51 /* AppNavigationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6046322A2D19EE0065BB51 /* AppNavigationManager.swift */; };
 		5F6046352A2D25910065BB51 /* RoundAnalysisView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6046342A2D25910065BB51 /* RoundAnalysisView.swift */; };
 		5F6046372A2D25E10065BB51 /* RoundInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6046362A2D25E10065BB51 /* RoundInputView.swift */; };
+		5F89192D2A6870D2008151BF /* RoundCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F89192C2A6870D2008151BF /* RoundCollectionView.swift */; };
 		5FEAA7F42A4A5A5900A37F4C /* Tools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FEAA7F32A4A5A5900A37F4C /* Tools.swift */; };
 /* End PBXBuildFile section */
 
@@ -32,6 +33,7 @@
 		5F6046322A2D19EE0065BB51 /* AppNavigationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNavigationManager.swift; sourceTree = "<group>"; };
 		5F6046342A2D25910065BB51 /* RoundAnalysisView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundAnalysisView.swift; sourceTree = "<group>"; };
 		5F6046362A2D25E10065BB51 /* RoundInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundInputView.swift; sourceTree = "<group>"; };
+		5F89192C2A6870D2008151BF /* RoundCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundCollectionView.swift; sourceTree = "<group>"; };
 		5FEAA7F32A4A5A5900A37F4C /* Tools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tools.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -100,6 +102,7 @@
 				5F6046342A2D25910065BB51 /* RoundAnalysisView.swift */,
 				5F60462E2A2711FA0065BB51 /* HoleDataView.swift */,
 				5F6046362A2D25E10065BB51 /* RoundInputView.swift */,
+				5F89192C2A6870D2008151BF /* RoundCollectionView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -191,6 +194,7 @@
 				5FEAA7F42A4A5A5900A37F4C /* Tools.swift in Sources */,
 				5F60462D2A2685D00065BB51 /* HomePageView.swift in Sources */,
 				5F6046282A267FAA0065BB51 /* ScorecardContainer.xcdatamodeld in Sources */,
+				5F89192D2A6870D2008151BF /* RoundCollectionView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -7,152 +7,9 @@
 
 import SwiftUI
 
-struct RoundCollectionView: View {
-    @EnvironmentObject var vm: CoreDataViewModel
-    @EnvironmentObject var appState: AppState
-    
-    var body: some View {
-        ScrollView{
-            
-    
-                ForEach(vm.scorecards){ round in
-                    NavigationLink (destination: RoundDisplayView(currRound: round)) {
-                        ZStack{
-                            RoundedRectangle(cornerRadius: 10).strokeBorder(lineWidth: 1)
-                            HStack{
-                                Text("\(round.descrip ?? "no name given")").padding(.horizontal)
-                                Spacer()
-                                Text("\(round.date?.formatted(date: .numeric, time: .omitted) ?? "")  ")
-                            }
-                        }.aspectRatio(8/1, contentMode: .fit)
-                    }.padding(.horizontal).navigationTitle("Completed Rounds").simultaneousGesture(TapGesture().onEnded{
-                        vm.getSpecHoles(scorecard: round)
-                        vm.getSpecialPutts(scorecard: round)
-                       
-                    })
-                    
-                }
-            
-        }
-        
-    }
-}
 
-struct headingView: View {
-    @EnvironmentObject var vm: CoreDataViewModel
-    let side: Bool
-    var body: some View {
-        
-        HStack {
-            Text("Hole ")
-                .foregroundColor(Color.white).font(.system(size: 15, weight: .regular, design: .default))
-            Spacer()
-            HStack{
-                if (side) {
-                    ForEach(vm.holes.prefix(9)) { hole in
-                        Spacer()
-                        Text("\(hole.holeNo+1)")
-                            .font(.system(size: 15, weight: .regular, design: .default))
-                        //.padding(.trailing)
-                            .foregroundColor(Color.white)
-                        Spacer()
-                    }
-                    
-                } else{
-                    
-                    ForEach(vm.holes.suffix(vm.holes.count-9)) { hole in
-                        Spacer()
-                        Text("\(hole.holeNo+1)")
-                            .font(.system(size: 15, weight: .regular, design: .default))
-                        //.padding(.trailing)
-                            .foregroundColor(Color.white)
-                        Spacer()
-                    }
-                }
-                
-            }
-            
-           
-        }
-        
-        .padding(.horizontal)
-        
-    }
-}
-struct parView: View {
-    @EnvironmentObject var vm: CoreDataViewModel
-    let side: Bool
-    var body: some View {
-        
-        HStack {
-            Text("Par    ")
-                .foregroundColor(Color.white).font(.system(size: 15, weight: .regular, design: .default))
-            Spacer()
-            HStack{
-                if(side){
-                    ForEach(vm.holes.prefix(9)) { hole in
-                        Spacer()
-                        Text("\(hole.par)")
-                            .font(.system(size: 15, weight: .regular, design: .default))
-                            .foregroundColor(Color.gray)
-                        Spacer()
-                    }
-                } else{
-                    
-                    ForEach(vm.holes.suffix(vm.holes.count-9)) { hole in
-                        Spacer()
-                        Text("\(hole.par)")
-                            .font(.system(size: 15, weight: .regular, design: .default))
-                            .foregroundColor(Color.gray)
-                        Spacer()
-                    }
-                }
-            }
-            
-           
-        }
-        
-        .padding(.horizontal)
-        
-    }
-}
-struct scoreView: View {
-    @EnvironmentObject var vm: CoreDataViewModel
-    let side: Bool
-    var body: some View {
-        
-        HStack {
-            Text("Score")
-                .foregroundColor(Color.white).font(.system(size: 15, weight: .regular, design: .default))
-            Spacer()
-            HStack{
-                if (side) {
-                    ForEach(vm.holes.prefix(9)) { hole in
-                        Spacer()
-                        Text("\(hole.score)")
-                            .font(.system(size: 15, weight: .regular, design: .default))
-                            .foregroundColor(Color.gray)
-                        Spacer()
-                    }
-                } else{
-                    ForEach(vm.holes.suffix(vm.holes.count-9)) { hole in
-                        Spacer()
-                        Text("\(hole.score)")
-                            .font(.system(size: 15, weight: .regular, design: .default))
-                            .foregroundColor(Color.gray)
-                        Spacer()
-                    }
-                }
-                
-                
-            }
-           
-        }
-        
-        .padding(.horizontal)
-        
-    }
-}
+
+
 struct roundView: View {
     @EnvironmentObject var vm: CoreDataViewModel
     let currRound: ScorecardModel
@@ -202,6 +59,123 @@ struct roundView: View {
         }.background(Color("Background")).roundedCorner(20, corners: [.topLeft, .topRight, .bottomRight])
         
     }
+    struct headingView: View {
+        @EnvironmentObject var vm: CoreDataViewModel
+        let side: Bool
+        var body: some View {
+            
+            HStack {
+                Text("Hole ")
+                    .foregroundColor(Color.white).font(.system(size: 15, weight: .regular, design: .default))
+                Spacer()
+                HStack{
+                    if (side) {
+                        ForEach(vm.holes.prefix(9)) { hole in
+                            Spacer()
+                            Text("\(hole.holeNo+1)")
+                                .font(.system(size: 15, weight: .regular, design: .default))
+                            //.padding(.trailing)
+                                .foregroundColor(Color.white)
+                            Spacer()
+                        }
+                        
+                    } else{
+                        
+                        ForEach(vm.holes.suffix(vm.holes.count-9)) { hole in
+                            Spacer()
+                            Text("\(hole.holeNo+1)")
+                                .font(.system(size: 15, weight: .regular, design: .default))
+                            //.padding(.trailing)
+                                .foregroundColor(Color.white)
+                            Spacer()
+                        }
+                    }
+                    
+                }
+                
+               
+            }
+            
+            .padding(.horizontal)
+            
+        }
+    }
+    struct parView: View {
+        @EnvironmentObject var vm: CoreDataViewModel
+        let side: Bool
+        var body: some View {
+            
+            HStack {
+                Text("Par    ")
+                    .foregroundColor(Color.white).font(.system(size: 15, weight: .regular, design: .default))
+                Spacer()
+                HStack{
+                    if(side){
+                        ForEach(vm.holes.prefix(9)) { hole in
+                            Spacer()
+                            Text("\(hole.par)")
+                                .font(.system(size: 15, weight: .regular, design: .default))
+                                .foregroundColor(Color.gray)
+                            Spacer()
+                        }
+                    } else{
+                        
+                        ForEach(vm.holes.suffix(vm.holes.count-9)) { hole in
+                            Spacer()
+                            Text("\(hole.par)")
+                                .font(.system(size: 15, weight: .regular, design: .default))
+                                .foregroundColor(Color.gray)
+                            Spacer()
+                        }
+                    }
+                }
+                
+               
+            }
+            
+            .padding(.horizontal)
+            
+        }
+    }
+    struct scoreView: View {
+        @EnvironmentObject var vm: CoreDataViewModel
+        let side: Bool
+        var body: some View {
+            
+            HStack {
+                Text("Score")
+                    .foregroundColor(Color.white).font(.system(size: 15, weight: .regular, design: .default))
+                Spacer()
+                HStack{
+                    if (side) {
+                        ForEach(vm.holes.prefix(9)) { hole in
+                            Spacer()
+                            Text("\(hole.score)")
+                                .font(.system(size: 15, weight: .regular, design: .default))
+                                .foregroundColor(Color.gray)
+                            Spacer()
+                        }
+                    } else{
+                        ForEach(vm.holes.suffix(vm.holes.count-9)) { hole in
+                            Spacer()
+                            Text("\(hole.score)")
+                                .font(.system(size: 15, weight: .regular, design: .default))
+                                .foregroundColor(Color.gray)
+                            Spacer()
+                        }
+                    }
+                    
+                    
+                }
+               
+            }
+            
+            .padding(.horizontal)
+            
+        }
+    }
+
+
 }
 
 
@@ -215,6 +189,7 @@ struct RoundDisplayView: View{
         
         VStack(spacing: 0) {
             ScrollView {
+                
                 roundView(currRound: currRound)
                 
                 NavigationLink(destination: CollectDataView(currRound: currRound)){
@@ -232,12 +207,19 @@ struct RoundDisplayView: View{
                 })
                 FinalScoreView(currRound: currRound)
                 FairwayAnalysisView(currRound: currRound )
-                PuttAnalysisView(currRound: currRound )
+                
+                
+                
+                
                 if currRound.advPutt{
-                    AdvPuttAnalysisView(currRound: currRound, breakDir: "Straight")
-                    AdvPuttAnalysisView(currRound: currRound, breakDir: "Left-Right")
-                    AdvPuttAnalysisView(currRound: currRound , breakDir: "Right-Left")
+                    PuttTable(currRound: currRound)
                     HighLowView(currRound: currRound)
+//                    AdvPuttAnalysisView(currRound: currRound, breakDir: "Straight")
+//                    AdvPuttAnalysisView(currRound: currRound, breakDir: "Left-Right")
+//                    AdvPuttAnalysisView(currRound: currRound , breakDir: "Right-Left")
+                    
+                } else{
+                    PuttAnalysisView(currRound: currRound)
                 }
                 PuttCountView(currRound: currRound)
                 StatView(currRound: currRound)
@@ -296,7 +278,7 @@ struct PuttCountView: View{
                 RoundedRectangle(cornerRadius: 10).strokeBorder(lineWidth: 1)
                 VStack{
                     Text("\(String(format: "%d", num))").font(.title)
-                    Text("# One Putts").font(.body)
+                    Text("One Putts").font(.body)
                 }
             }
            
@@ -311,7 +293,7 @@ struct PuttCountView: View{
                 RoundedRectangle(cornerRadius: 10).strokeBorder(lineWidth: 1)
                 VStack{
                     Text("\(String(format: "%d", num))").font(.title)
-                    Text("# Two Putts").font(.body)
+                    Text("Two Putts").font(.body)
                 }
             }
             
@@ -324,7 +306,7 @@ struct PuttCountView: View{
                 RoundedRectangle(cornerRadius: 10).strokeBorder(lineWidth: 1)
                 VStack{
                     Text("\(String(format: "%d", num))").font(.title)
-                    Text("# Three Putts+").font(.body)
+                    Text("Three Putts +").font(.body)
                 }
             }
         }
@@ -490,12 +472,9 @@ struct PuttAnalysisView: View{
     @EnvironmentObject var vm: CoreDataViewModel
     let currRound: ScorecardModel
     var body: some View {
-
         let values = vm.puttResults()
-        
         VStack{
             HStack{
-                
                 Text("  Putts")
                     .font(.title)
                     .fontWeight(.bold).frame(alignment: .leading)
@@ -503,31 +482,18 @@ struct PuttAnalysisView: View{
             }
             ZStack{
                 RoundedRectangle(cornerRadius: 10).strokeBorder(lineWidth: 3)
-
                 VStack{
                     HStack{
-
-                        //Spacer()
                         Text("# Putts: \(vm.totalPutts(scorecard: currRound))")
                         Spacer()
-
                         Text("Miss L: \(values[0])")
-                        
-
                         Spacer()
-
                         Text("Miss R: \(values[1])")
-                       // Spacer()
-
                     }
                 }.padding(.all)
             }
             .padding([.leading, .bottom, .trailing])
-            
         }
-        
-        
-        
     }
 }
 
@@ -565,6 +531,189 @@ struct AdvPuttAnalysisView: View{
         
     }
 }
+
+
+struct PuttTable: View{
+    @EnvironmentObject var vm: CoreDataViewModel
+    let currRound: ScorecardModel
+    var body: some View {
+       
+        
+        
+        VStack{
+            HStack{
+                Text("  Putts")
+                    .font(.title)
+                    .fontWeight(.bold).frame(alignment: .leading)
+                Spacer()
+            }
+            ZStack{
+                RoundedRectangle(
+                cornerRadius: 20,
+                style: .continuous)
+                .fill(Color(.white))
+                RoundedRectangle(cornerRadius:  20).strokeBorder(.blue, lineWidth: 4)
+                
+                VStack{
+                    Header().padding(.top)
+                    Rectangle().fill(Color.blue).frame(height: 4, alignment: .center)
+                    Straight().padding(.bottom)
+                    LeftRight().padding(.bottom)
+                    RightLeft().padding(.bottom)
+                    Total().padding(.bottom)
+                }
+            }.padding([.bottom, .horizontal])
+            
+        }
+        
+        
+        
+    }
+    
+    
+    struct Header: View {
+        @EnvironmentObject var vm: CoreDataViewModel
+        var body: some View {
+            
+                HStack {
+                    Text("Putt Table")
+                    //                    .foregroundColor(Color.white).font(.system(size: 15, weight: .regular, design: .default))
+                    Spacer()
+                    
+                    HStack{
+                        Spacer()
+                        Text("Makes")
+                        Spacer()
+                        Text("Miss L")
+                        Spacer()
+                        Text("Miss R")
+                        Spacer()
+                        Text("Total")
+                        
+                    }
+                    
+                    
+                }.padding(.horizontal)
+               
+            
+        }
+    }
+//    let breaking = ["Break?", "Left-Right","Right-Left", "Straight"]
+//    let miss = ["Miss?", "Left","Right", "Make"]
+    struct Straight: View {
+        @EnvironmentObject var vm: CoreDataViewModel
+        var body: some View {
+            let total = vm.breakResults(loc: "Straight")
+            let miss = vm.breakMiss(loc: "Straight")
+            HStack {
+                Text("Straight    ")
+
+                Spacer()
+                HStack{
+                    Spacer()
+                    Text("\(total[0] - miss[0] - miss[1])")
+                    Spacer()
+                    Text("\(miss[0])")
+                    Spacer()
+                    Text("\(miss[1])")
+                    Spacer()
+                    Text("\(total[0])")
+                }
+            }.padding(.horizontal)
+        }
+    }
+    
+    
+    struct LeftRight: View {
+        @EnvironmentObject var vm: CoreDataViewModel
+        var body: some View {
+            let total = vm.breakResults(loc: "Left-Right")
+            let miss = vm.breakMiss(loc: "Left-Right")
+            HStack {
+                Text("Left-Right")
+
+                Spacer()
+                HStack{
+                    Spacer()
+                    Text("\(total[0] - miss[0] - miss[1])")
+                    Spacer()
+                    Text("\(miss[0])")
+                    Spacer()
+                    Text("\(miss[1])")
+                    Spacer()
+                    Text("\(total[0])")
+                }
+            }.padding(.horizontal)
+        }
+    }
+    
+    struct RightLeft: View {
+        @EnvironmentObject var vm: CoreDataViewModel
+        var body: some View {
+            let total = vm.breakResults(loc: "Right-Left")
+            let miss = vm.breakMiss(loc: "Right-Left")
+            HStack {
+                Text("Right-Left")
+
+                Spacer()
+                HStack{
+                    Spacer()
+                    Text("\(total[0] - miss[0] - miss[1])")
+                    Spacer()
+                    Text("\(miss[0])")
+                    Spacer()
+                    Text("\(miss[1])")
+                    Spacer()
+                    Text("\(total[0])")
+                }
+            }.padding(.horizontal)
+        }
+    }
+    
+    struct Total: View {
+        @EnvironmentObject var vm: CoreDataViewModel
+        var body: some View {
+            let S = vm.breakResults(loc: "Straight")
+            let LR = vm.breakResults(loc: "Left-Right")
+            let RL = vm.breakResults(loc: "Right-Left")
+            let btot = zip(RL, LR).map(+)
+            let Stot = zip(btot, S).map(+)
+            
+            let miss = vm.breakMiss(loc: "Straight")
+            let LRmiss = vm.breakMiss(loc: "Left-Right")
+            let RLmiss = vm.breakMiss(loc: "Right-Left")
+            let bmiss = zip(RLmiss, LRmiss).map(+)
+            let Smiss = zip(bmiss, miss).map(+)
+            
+            
+          
+            HStack {
+                Text("Total         ")
+
+                Spacer()
+                HStack{
+                    Spacer()
+                    Text("\(Stot[0] - Smiss[0] - Smiss[1])")
+                    Spacer()
+                    Text("\(Smiss[0])")
+                    Spacer()
+                    Text("\(Smiss[1])")
+                    Spacer()
+                    Text("\(Stot[0])")
+                }
+            }.padding(.horizontal)
+        }
+    }
+    
+}
+
+
+
+
+
+
+
+
 
 struct HighLowView: View{
     @EnvironmentObject var vm: CoreDataViewModel
