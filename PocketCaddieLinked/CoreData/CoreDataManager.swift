@@ -348,11 +348,13 @@ class CoreDataViewModel: ObservableObject {
     }
     
     func deleteSpecScorecard(scorecard: ScorecardModel){
-        
         manager.context.delete(scorecard)
         save()
-        
-        
+    }
+    
+    func deleteSpecPutt(Putt: PuttModel, Hole: HoleModel){
+        manager.context.delete(Putt)
+        getSpecPutts(hole: Hole)
     }
     
     

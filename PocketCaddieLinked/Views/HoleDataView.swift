@@ -59,14 +59,19 @@ struct CollectDataView: View {
                     Text("Putts On Hole")
                     Spacer()
                 }
-                ForEach(vm.putts) { putt in
+                ForEach(Array(vm.putts.enumerated()), id: \.element) { index, element in
 //                    PuttButton(putt: putt, adv: currRound.advPutt)
-            
-                    PuttButton(putt: putt, adv: currRound.advPutt, breakInput: putt.breaking ?? "Break?", missInput: putt.miss ?? "Miss?")
-                        
+                    let putt = element
+                    PuttButton(putt: putt, adv: currRound.advPutt, puttNum: index, breakInput: putt.breaking ?? "Break?", missInput: putt.miss ?? "Miss?")
+
+
+                }.onDelete { indexSet in
                     
+                    removePutt(offsets: indexSet, hole: currHole)
                 }
                       
+                
+               
                         
                 HStack{
                     Spacer()
@@ -113,6 +118,12 @@ struct CollectDataView: View {
             
         }
     }
+    
+    func removePutt(offsets: IndexSet, hole: HoleModel){
+        offsets.sorted(by: > ).forEach { (i) in
+            vm.deleteSpecPutt(Putt: vm.putts[i], Hole: hole)
+        }
+    }
 }
 
 
@@ -120,13 +131,14 @@ struct PuttButton: View {
     @EnvironmentObject var vm: CoreDataViewModel
     var putt: PuttModel
     let adv : Bool
+    let puttNum: Int
     let breaking = ["Break?", "Left-Right","Right-Left", "Straight"]
     let miss = ["Miss?", "Left","Right", "Make"]
     @State var breakInput: String = "Break?"
     @State var missInput: String = "Miss?"
     var body: some View {
         HStack{
-            Text("#\(putt.num+1)").font(.body)
+            Text("#\(puttNum+1)").font(.body)
             Spacer()
 
             if adv {
