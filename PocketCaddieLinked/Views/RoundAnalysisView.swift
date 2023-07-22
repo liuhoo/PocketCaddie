@@ -16,10 +16,10 @@ struct roundView: View {
     var body: some View {
         VStack {
             ZStack{
-                RoundedRectangle(
-                cornerRadius: 20,
-                style: .continuous
-                ).fill(Color("Text"))
+//                RoundedRectangle(
+//                cornerRadius: 20,
+//                style: .continuous
+//                ).fill(Color("Text"))
                 RoundedRectangle(cornerRadius:  20).strokeBorder(.blue, lineWidth: 4)
                 VStack{
                     headingView(side: true)
@@ -56,7 +56,7 @@ struct roundView: View {
                 
             }
            
-        }.background(Color("Background")).roundedCorner(20, corners: [.topLeft, .topRight, .bottomRight])
+        }.roundedCorner(20, corners: [.topLeft, .topRight, .bottomRight])
         
     }
     struct headingView: View {
@@ -66,7 +66,7 @@ struct roundView: View {
             
             HStack {
                 Text("Hole ")
-                    .foregroundColor(Color.white).font(.system(size: 15, weight: .regular, design: .default))
+                   .font(.system(size: 15, weight: .regular, design: .default))
                 Spacer()
                 HStack{
                     if (side) {
@@ -75,7 +75,7 @@ struct roundView: View {
                             Text("\(hole.holeNo+1)")
                                 .font(.system(size: 15, weight: .regular, design: .default))
                             //.padding(.trailing)
-                                .foregroundColor(Color.white)
+            
                             Spacer()
                         }
                         
@@ -86,7 +86,7 @@ struct roundView: View {
                             Text("\(hole.holeNo+1)")
                                 .font(.system(size: 15, weight: .regular, design: .default))
                             //.padding(.trailing)
-                                .foregroundColor(Color.white)
+                               
                             Spacer()
                         }
                     }
@@ -107,7 +107,7 @@ struct roundView: View {
             
             HStack {
                 Text("Par    ")
-                    .foregroundColor(Color.white).font(.system(size: 15, weight: .regular, design: .default))
+                   .font(.system(size: 15, weight: .regular, design: .default))
                 Spacer()
                 HStack{
                     if(side){
@@ -115,7 +115,7 @@ struct roundView: View {
                             Spacer()
                             Text("\(hole.par)")
                                 .font(.system(size: 15, weight: .regular, design: .default))
-                                .foregroundColor(Color.gray)
+                               
                             Spacer()
                         }
                     } else{
@@ -124,7 +124,7 @@ struct roundView: View {
                             Spacer()
                             Text("\(hole.par)")
                                 .font(.system(size: 15, weight: .regular, design: .default))
-                                .foregroundColor(Color.gray)
+                               
                             Spacer()
                         }
                     }
@@ -144,7 +144,7 @@ struct roundView: View {
             
             HStack {
                 Text("Score")
-                    .foregroundColor(Color.white).font(.system(size: 15, weight: .regular, design: .default))
+                   .font(.system(size: 15, weight: .regular, design: .default))
                 Spacer()
                 HStack{
                     if (side) {
@@ -152,7 +152,7 @@ struct roundView: View {
                             Spacer()
                             Text("\(hole.score)")
                                 .font(.system(size: 15, weight: .regular, design: .default))
-                                .foregroundColor(Color.gray)
+                               
                             Spacer()
                         }
                     } else{
@@ -160,7 +160,7 @@ struct roundView: View {
                             Spacer()
                             Text("\(hole.score)")
                                 .font(.system(size: 15, weight: .regular, design: .default))
-                                .foregroundColor(Color.gray)
+                                
                             Spacer()
                         }
                     }
@@ -548,10 +548,10 @@ struct PuttTable: View{
                 Spacer()
             }
             ZStack{
-                RoundedRectangle(
-                cornerRadius: 20,
-                style: .continuous)
-                .fill(Color(.white))
+//                RoundedRectangle(
+//                cornerRadius: 20,
+//                style: .continuous)
+//                .fill(Color(.white))
                 RoundedRectangle(cornerRadius:  20).strokeBorder(.blue, lineWidth: 4)
                 
                 VStack{
@@ -559,7 +559,8 @@ struct PuttTable: View{
                     Rectangle().fill(Color.blue).frame(height: 4, alignment: .center)
                     Straight().padding(.bottom)
                     LeftRight().padding(.bottom)
-                    RightLeft().padding(.bottom)
+                    RightLeft()
+                    Rectangle().fill(Color.blue).frame(height: 4, alignment: .center)
                     Total().padding(.bottom)
                 }
             }.padding([.bottom, .horizontal])
